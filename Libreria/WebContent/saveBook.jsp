@@ -9,7 +9,7 @@
 	String cat_lib = request.getParameter("category");
 	Libro libro = new Libro(cve_lib, aut_lib, cat_lib, tit_lib);
 	libro.save(); // salvar method
-	response.sendRedirect("MostrarLibros.jsp");
+	response.sendRedirect("showBooks.jsp");
 %>
 <body>
 

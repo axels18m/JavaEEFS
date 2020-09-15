@@ -17,7 +17,7 @@ public class DataBaseHelper<T>
 	private static final String USER = "root";
 	private static final String PASS = "";
 	
-	public int editRecord( String query )
+	public int editRecord( String query ) throws DataBaseException  
 	{
 		Connection conn = null;
 		Statement state = null;
@@ -30,6 +30,7 @@ public class DataBaseHelper<T>
 			affectedRows = state.executeUpdate(query);
 		} catch (SQLException e) {
 			System.out.println("Error de SQL: " + e.getMessage());
+			throw new DataBaseException("Error de SQL", e);
 		} finally {
 			if (state != null)
 			{
@@ -56,7 +57,7 @@ public class DataBaseHelper<T>
 	}
 	
 	@SuppressWarnings({"finally", "unchecked", "rawtypes"})	
-	public List<T> getRecords(String query, Class className)
+	public List<T> selectRecords(String query, Class className) throws SQLException 
 	{
 		Connection conn = null;
 		Statement statement = null;
@@ -90,17 +91,17 @@ public class DataBaseHelper<T>
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error al seleccionar registros");
+			System.out.println("Error al seleccionar registros" + e.getMessage());
 			
 		} finally {
 			if (statement != null) 
 			{ 
-				try { statement.close(); } catch (SQLException e) { }
+				statement.close();
 			}
 			
 			if (conn != null)
 			{
-				try { conn.close(); } catch (SQLException e) { }
+				conn.close();
 			}
 			
 			return objectsList;

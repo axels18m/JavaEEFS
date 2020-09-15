@@ -1,5 +1,7 @@
 package databaseH;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 // Shift + Alt + S +G -> Setter and getters
@@ -16,7 +18,7 @@ public class Libro
 		this.tit_lib = tit_lib;
 	}
 	
-	public void save()
+	public void save() throws DataBaseException
 	{
 		String query = "UPDATE Libros set author = " + this.auth_lib + ", category = " + this.cat_lib + ", " + 
 						", title = " + this.tit_lib + " WHERE isbn = " + Integer.parseInt(isbn);
@@ -24,7 +26,7 @@ public class Libro
 		helper.editRecord(query);
 	}
 	
-	public void insert()
+	public void insert() throws DataBaseException  
 	{
 		String query = "INSERT INTO Libros(isbn, author, category, title) VALUES";
 		query += "(" + this.auth_lib + ", category = " + this.cat_lib + ", " + ", title = " + this.tit_lib +")";
@@ -32,48 +34,48 @@ public class Libro
 		helper.editRecord(query);
 	}
 
-	public void delete ()
+	public void delete () throws DataBaseException
 	{
-		String query = "DELETE FROM Libros WHERE isbn = " + this.isbn;
+		String query = "DELETE FROM Libros WHERE isbn = '" + this.isbn +"'";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.editRecord(query);
 	}
 	
-	public static List<Libro> gettByCategory( String category)
+	public static List<Libro> getByCategory( String category) throws SQLException
 	{
 		String query = "SELECT isbn, author, category, title FROM Libros WHERE category = '" + category +"'";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
-		List<Libro>listOfBooks = helper.getRecords(query, Libro.class);
+		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
 		return listOfBooks;
 	}
 	
-	public static List<String> getAllCategories()
+	public static List<String> getAllCategories() throws SQLException
 	{
 		String query = "SELECT DISTINC(category) AS cat FROM Libros";
 		DataBaseHelper<String> helper = new DataBaseHelper<String>();
-		List<String> listOfCat = helper.getRecords(query, String.class);
+		List<String> listOfCat = helper.selectRecords(query, String.class);
 		return listOfCat;
 	}
 	
-	public static List<Libro> getAll()
+	public static List<Libro> getAll() throws SQLException
 	{
 		String query = "SELECT isbn, author, category, title FROM Libros";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
-		List<Libro> listOfBooks = helper.getRecords(query, Libro.class);
+		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
 		return listOfBooks;
 	}
 	
-	public static Libro getById(String isbn)
+	public static Libro getById(String isbn) throws SQLException
 	{
-		String query = "SELECT isbn, author, category,title FROM Libros WHERE isbn = '" + isbn +"'";
-		DataBaseHelper<String> helper = new DataBaseHelper<String>();
-		List<String> listOfBooks = helper.getRecords(query, Libro.class);
-		return (Libro) listOfBooks;
+		String query = "SELECT * FROM Libros WHERE isbn = '" + isbn +"'";
+		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
+		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
+		return listOfBooks.get(0);
 	}
 	
 	public void findById(String Id)
 	{
-		// Cast id -> int
+		Integer.parseInt(Id);
 	}
 
 	public String getIsbn() {
