@@ -8,6 +8,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	table, th, td 
+	{
+	  border: 1px solid black;
+	  padding: 5px;
+	}
+</style>
 </head>
 <body>
 	<form action ="showBooks.jsp" method = "post">
@@ -23,6 +30,7 @@
 				if (request.getParameter("category") == null || request.getParameter("category").equals("select"))
 				{
 					listOfBooks = Libro.getAll();
+					
 				} else {
 					listOfBooks = Libro.getByCategory(request.getParameter("category"));
 				}
@@ -31,13 +39,13 @@
 				{
 					%>
 					<tr>
-						<td><% book.getIsbn(); %> </td>
-						<td><% book.getAuth_lib(); %></td>
-						<td><% book.getCat_lib(); %></td>
-						<td><% book.getTit_lib(); %></td>
+						<td><%= book.getIsbn() %> </td>
+						<td><%= book.getAuth_lib() %></td>
+						<td><%= book.getCat_lib() %></td>
+						<td><%= book.getTit_lib() %></td>
 					
-						<td><a href = "deleteBook.jsp?id_lib=<% book.getIsbn(); %>">Delete</a></td>
-						<td><a href = "editForm.jsp?id_lib=<% book.getIsbn(); %>">Edit</a></td>
+						<td><a href = "deleteBook.jsp?isbn=<%= book.getIsbn() %>">Delete</a></td>
+						<td><a href = "editForm.jsp?isbn=<%= book.getIsbn() %>">Edit</a></td>
 					</tr>
 				<% } %>
 		</table>
@@ -48,7 +56,7 @@
 		<%
 			List<String> listOfCategories = null;
 			listOfCategories = Libro.getAllCategories();
-			pageContext.setAttribute("listofCategories", listOfCategories);
+			pageContext.setAttribute("listOfCategories", listOfCategories);
 		%>
 		
 		<c:forEach var = "category" items = "${ listOfCategories }">

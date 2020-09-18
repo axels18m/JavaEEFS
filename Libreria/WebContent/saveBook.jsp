@@ -3,11 +3,11 @@
 <html>
 <%@page import = "databaseH.Libro" %>
 <%
-	String cve_lib = request.getParameter("cve_lib");
-	String tit_lib = request.getParameter("tit_lib");
-	String aut_lib = request.getParameter("aut_lib");
-	String cat_lib = request.getParameter("category");
-	Libro libro = new Libro(cve_lib, aut_lib, cat_lib, tit_lib);
+	int isbn = Integer.parseInt(request.getParameter("isbn"));
+	String title = request.getParameter("title");
+	int author = Integer.parseInt(request.getParameter("author"));
+	int category = Integer.parseInt(request.getParameter("category"));
+	Libro libro = new Libro(isbn, author, category, title);
 	libro.save(); // salvar method
 	response.sendRedirect("showBooks.jsp");
 %>

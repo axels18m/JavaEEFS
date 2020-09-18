@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action = "showBooks.jsp" method = "post"> <!-- FormularioInsertarLibro -->
+	<form action = "insertBookForm.jsp" method = "post"> <!-- FormularioInsertarLibro -->
 		<fieldset>
 			<legend>Create new record of Libros.</legend>
 			
@@ -33,7 +33,7 @@
 				<input id="category" type="text" name="category"/>
 			</p>
 			
-			<a href = "insertBookForm"><button value = "insert" type="submit">Insert</button></a>
+			<button value = "insert" type="submit">Insert</button>
 			<button value = "delete" type="reset">Delete</button>
 			<a href = "showBooks.jsp"><button>Cancel</button></a>
 		</fieldset>

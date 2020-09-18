@@ -1,5 +1,6 @@
 package databaseH;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,13 +10,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+
 public class DataBaseHelper<T> 
 {
+
+	private static final Logger log = Logger.getLogger(DataBaseHelper.class.getPackage().getName());
 	
-	private static final String DRIVER = "com.mysql.jdbcDriver";
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
 	private static final String SERVER = "jdbc:mysql://localhost/libreria";
 	private static final String USER = "root";
 	private static final String PASS = "";
+	
+	PatternLayout pattern = new PatternLayout("%m %n"); /* %m -> force to print the text, %n -> force to return null */
+	FileAppender console = null;
 	
 	public int editRecord( String query ) throws DataBaseException  
 	{
@@ -23,13 +33,23 @@ public class DataBaseHelper<T>
 		Statement state = null;
 		int affectedRows = 0;
 		
+		try { console = new FileAppender(pattern, "logErrors.txt"); } catch (IOException e) { e.printStackTrace(); }
+		Logger log = Logger.getLogger("DBLog");
+		log.addAppender(console);
+		
 		try
 		{
+			Class.forName(DRIVER);
 			conn = DriverManager.getConnection(SERVER, USER, PASS);
 			state = conn.createStatement();
 			affectedRows = state.executeUpdate(query);
+			
+		} catch(ClassNotFoundException e) {
+			log.error("Error de acceso al driver: " + e.getMessage());
+			throw new DataBaseException("Error de driver",e);
+			
 		} catch (SQLException e) {
-			System.out.println("Error de SQL: " + e.getMessage());
+			log.error("Error de SQL: " + e.getMessage());
 			throw new DataBaseException("Error de SQL", e);
 		} finally {
 			if (state != null)
@@ -64,6 +84,10 @@ public class DataBaseHelper<T>
 		ResultSet rows = null;
 		List<T> objectsList = new ArrayList<T>();
 		
+		try { console = new FileAppender(pattern, "logErrors.txt"); } catch (IOException e) { e.printStackTrace(); }
+		Logger log = Logger.getLogger("DBLog");
+		log.addAppender(console);
+		
 		try {
 			Class.forName(DRIVER);
 			conn = DriverManager.getConnection(SERVER, USER, PASS);
@@ -77,21 +101,25 @@ public class DataBaseHelper<T>
 				
 				for (int i = 0; i < methods.length; i++)
 				{
-					if (isNumeric(rows.getNString(methods[i].getName().substring(3))))
+					if (methods[i].getName().startsWith("set")) 
 					{
-						methods[i].invoke(obj, rows.getInt(methods[i].getName().substring(3)));
-					} else {
-						methods[i].invoke(obj, rows.getString(methods[i].getName().substring(3)));
+						if (isNumeric(rows.getString(methods[i].getName().substring(3))))
+						{
+							methods[i].invoke(obj, rows.getInt(methods[i].getName().substring(3)));
+						} else {
+							methods[i].invoke(obj, rows.getString(methods[i].getName().substring(3)));
+						}
 					}
-				}
-				
-				if (obj.getClass().getName().equals("java.lang.String"))
-				{
-					obj = (T) rows.getString(1); 
-				}
+					
+					if (obj.getClass().getName().equals("java.lang.String")) { obj = (T) rows.getString(1); }
+				} 
+				objectsList.add(obj);
 			}
 		} catch (Exception e) {
-			System.out.println("Error al seleccionar registros" + e.getMessage());
+			log.error("Error al seleccionar registros\n" + e.getMessage());
+			System.out.println("Error al seleccionar registros\n" + e.getMessage()+"\n" + e.getCause());
+			e.printStackTrace();
+			throw new DataBaseException("Error al seleccionar registros\n" + e.getMessage());
 			
 		} finally {
 			if (statement != null) 

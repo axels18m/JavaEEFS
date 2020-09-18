@@ -3,12 +3,13 @@
 <%
 	try
 	{
-		//String isbn = request.getParameter("isbn");
-		Libro libro = new Libro(request.getParameter("isbn"), null, null, null);
+		int isbn = Integer.parseInt(request.getParameter("isbn"));
+		Libro libro = new Libro(isbn);
 		libro.delete();
 		response.sendRedirect("showBooks.jsp");	
 	} catch (DataBaseException e) {
-		out.println(e.getMessage());
+		System.out.println(e.getMessage());
+		throw new DataBaseException("Error al eliminar libro: " + e.getMessage());
 	}
 %>
 

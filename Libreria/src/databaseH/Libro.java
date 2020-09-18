@@ -4,13 +4,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 // Shift + Alt + S +G -> Setter and getters
 public class Libro 
 {
-	private String isbn;
-	String auth_lib, cat_lib, tit_lib;
+	private int isbn;
+	int auth_lib;
+	int cat_lib;
+	String tit_lib;
 	
-	public Libro(String isbn, String aut_lib, String cat_lib, String tit_lib)
+	public Libro(int isbn, int aut_lib, int cat_lib, String tit_lib)
 	{
 		this.isbn = isbn;
 		this.auth_lib = aut_lib;
@@ -18,10 +21,46 @@ public class Libro
 		this.tit_lib = tit_lib;
 	}
 	
+	public Libro() { super(); }
+	
+	public Libro(int isbn) { super(); this.isbn = isbn; } 
+	
+	public int getIsbn() {
+		return this.isbn;
+	}
+
+	public void setIsbn(int isbn) {
+		this.isbn = isbn;
+	}
+
+	public int getAuth_lib() {
+		return this.auth_lib;
+	}
+
+	public void setAuthor(int auth_lib) {
+		this.auth_lib = auth_lib;
+	}
+
+	public int getCat_lib() {
+		return this.cat_lib;
+	}
+
+	public void setCategory(int cat_lib) {
+		this.cat_lib = cat_lib;
+	}
+
+	public String getTit_lib() {
+		return this.tit_lib;
+	}
+
+	public void setTitle(String tit_lib) {
+		this.tit_lib = tit_lib;
+	}
+	
 	public void save() throws DataBaseException
 	{
 		String query = "UPDATE Libros set author = " + this.auth_lib + ", category = " + this.cat_lib + ", " + 
-						", title = " + this.tit_lib + " WHERE isbn = " + Integer.parseInt(isbn);
+						", title = '" + this.tit_lib + "' WHERE isbn = " + isbn;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.editRecord(query);
 	}
@@ -29,21 +68,21 @@ public class Libro
 	public void insert() throws DataBaseException  
 	{
 		String query = "INSERT INTO Libros(isbn, author, category, title) VALUES";
-		query += "(" + this.auth_lib + ", category = " + this.cat_lib + ", " + ", title = " + this.tit_lib +")";
+		query += "("  + this.isbn + ", " + this.auth_lib + ", " + this.cat_lib + ", '" + this.tit_lib +"')";
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.editRecord(query);
 	}
 
 	public void delete () throws DataBaseException
 	{
-		String query = "DELETE FROM Libros WHERE isbn = '" + this.isbn +"'";
+		String query = "DELETE FROM Libros WHERE isbn = " + this.isbn;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.editRecord(query);
 	}
 	
 	public static List<Libro> getByCategory( String category) throws SQLException
 	{
-		String query = "SELECT isbn, author, category, title FROM Libros WHERE category = '" + category +"'";
+		String query = "SELECT * FROM Libros WHERE category = " + category;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
 		return listOfBooks;
@@ -51,7 +90,7 @@ public class Libro
 	
 	public static List<String> getAllCategories() throws SQLException
 	{
-		String query = "SELECT DISTINC(category) AS cat FROM Libros";
+		String query = "SELECT DISTINCT(category) FROM Libros";
 		DataBaseHelper<String> helper = new DataBaseHelper<String>();
 		List<String> listOfCat = helper.selectRecords(query, String.class);
 		return listOfCat;
@@ -65,48 +104,11 @@ public class Libro
 		return listOfBooks;
 	}
 	
-	public static Libro getById(String isbn) throws SQLException
+	public static Libro getById(int isbn) throws SQLException
 	{
-		String query = "SELECT * FROM Libros WHERE isbn = '" + isbn +"'";
+		String query = "SELECT * FROM Libros WHERE isbn = " + isbn;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
 		return listOfBooks.get(0);
-	}
-	
-	public void findById(String Id)
-	{
-		Integer.parseInt(Id);
-	}
-
-	public String getIsbn() {
-		return isbn;
-	}
-
-	public void setIsbn(String isbn) {
-		this.isbn = isbn;
-	}
-
-	public String getAuth_lib() {
-		return auth_lib;
-	}
-
-	public void setAuth_lib(String auth_lib) {
-		this.auth_lib = auth_lib;
-	}
-
-	public String getCat_lib() {
-		return cat_lib;
-	}
-
-	public void setCat_lib(String cat_lib) {
-		this.cat_lib = cat_lib;
-	}
-
-	public String getTit_lib() {
-		return tit_lib;
-	}
-
-	public void setTit_lib(String tit_lib) {
-		this.tit_lib = tit_lib;
 	}
 }
