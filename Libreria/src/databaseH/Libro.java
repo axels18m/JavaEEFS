@@ -59,8 +59,7 @@ public class Libro
 	
 	public void save() throws DataBaseException
 	{
-		String query = "UPDATE Libros set author = " + this.auth_lib + ", category = " + this.cat_lib + ", " + 
-						", title = '" + this.tit_lib + "' WHERE isbn = " + isbn;
+		String query = "UPDATE Libros set author = " + this.auth_lib + ", category = " + this.cat_lib + ", title = '" + this.tit_lib + "' WHERE isbn = " + this.isbn;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		helper.editRecord(query);
 	}
@@ -80,7 +79,7 @@ public class Libro
 		helper.editRecord(query);
 	}
 	
-	public static List<Libro> getByCategory( String category) throws SQLException
+	public static List<Libro> getByCategory(String category) throws SQLException
 	{
 		String query = "SELECT * FROM Libros WHERE category = " + category;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
@@ -106,7 +105,7 @@ public class Libro
 	
 	public static Libro getById(int isbn) throws SQLException
 	{
-		String query = "SELECT * FROM Libros WHERE isbn = " + isbn;
+		String query = "SELECT isbn, author, category, title FROM Libros WHERE isbn = " + isbn;
 		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
 		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
 		return listOfBooks.get(0);
