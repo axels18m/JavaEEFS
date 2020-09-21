@@ -1,22 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.List" %>
-<%@ page import="databaseH.*" %>
 
-<% try 
-	{
-		int isbn= Integer.parseInt(request.getParameter("isbn"));
-		int author= Integer.parseInt(request.getParameter("author"));
-		String title= request.getParameter("title");
-		int category= Integer.parseInt(request.getParameter("category"));
-		Libro libro = new Libro(isbn, author, category, title);
-		libro.insert();
-		response.sendRedirect("showBooks.jsp");
-	} catch (DataBaseException e) { %>
-		<%=e.getMessage()%>
-		<%=e.getCause() %>
-	<%}
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,5 +8,33 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<form action = "insertBookForm.do"> <!-- FormularioInsertarLibro -->
+		<fieldset>
+			<legend>Create new record of Libros.</legend>
+			
+			<p>
+				<label for="isbn">ISBN:</label>
+				<input  id="isbn" type="text" name="isbn"/>
+			</p> 
+			
+			<p> 
+				<label for="author">Author:</label>
+				<input id="author" type="text" name= "author"/>
+			</p>
+			
+			<p>
+				<label for="category">Category :</label>
+				<input id="category" type="text" name="category"/>
+			</p>
+			
+			<p> 
+				<label for="title">Titulo:</label>
+				<input id="title" type="text" name= "title"/>
+			</p>
+			
+			<button value = "insert" type="submit">Insert</button>
+			<a href = "showBooks.do"><button>Cancel</button></a>
+		</fieldset>
+	</form>
 </body>
 </html>

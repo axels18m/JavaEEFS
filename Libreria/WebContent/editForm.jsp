@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="databaseH.*" %>
+<%@ page import="entity.Libro" %>
 <% Libro libro = Libro.getById(Integer.parseInt(request.getParameter("isbn")));%>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="saveBook.jsp" method = "post">
+	<form action="saveBook.do">
 		<fieldset>
 			<legend>Edit Book Form</legend>
 			<p>

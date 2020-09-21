@@ -1,8 +1,11 @@
-package databaseH;
+package entity;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import databaseH.DataBaseException;
+import databaseH.DataBaseHelper;
 
 
 // Shift + Alt + S +G -> Setter and getters

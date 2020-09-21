@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <%@page import = "databaseH.*" %>
+<%@ page import="entity.Libro" %>
 <%
 	try {
 		int isbn = Integer.parseInt(request.getParameter("isbn"));

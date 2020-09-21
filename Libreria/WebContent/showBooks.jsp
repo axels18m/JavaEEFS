@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="databaseH.*"%>
+<%@ page import="entity.Libro" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.List" %>
 
@@ -44,26 +44,27 @@
 						<td><%= book.getCat_lib() %></td>
 						<td><%= book.getTit_lib() %></td>
 					
-						<td><a href = "deleteBook.jsp?isbn=<%= book.getIsbn() %>">Delete</a></td>
-						<td><a href = "editForm.jsp?isbn=<%= book.getIsbn() %>">Edit</a></td>
+						<td><a href = "deleteBook.do?isbn=<%= book.getIsbn() %>">Delete</a></td>
+						<td><a href = "editForm.do?isbn=<%= book.getIsbn() %>">Edit</a></td>
 					</tr>
 				<% } %>
 		</table>
-	</form>
-
-	<select name = "category" id = "category">
-		<option value = "select">seleccionar</option>
-		<%
-			List<String> listOfCategories = null;
-			listOfCategories = Libro.getAllCategories();
-			pageContext.setAttribute("listOfCategories", listOfCategories);
-		%>
 		
-		<c:forEach var = "category" items = "${ listOfCategories }">
-			<option value = "${ category }"> ${ category }</option>
-		</c:forEach>
-	</select>
-	<input type = "submit" values = "Filter"/><br/>
+		<select name = "category" id = "category">
+			<option value = "select">seleccionar</option>
+			<%
+				List<String> listOfCategories = null;
+				listOfCategories = Libro.getAllCategories();
+				pageContext.setAttribute("listOfCategories", listOfCategories);
+			%>
+			
+			<c:forEach var = "category" items = "${ listOfCategories }">
+				<option value = "${ category }"> ${ category }</option>
+			</c:forEach>
+		</select>
+		<input type = "submit" values = "Filter"/>
+		<button><a href = "insertBookForm.jsp">New Book</a></button>
+	</form>
 		
 </body>
 </html>
