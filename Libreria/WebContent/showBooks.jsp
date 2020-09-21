@@ -45,7 +45,7 @@
 						<td><%= book.getTit_lib() %></td>
 					
 						<td><a href = "deleteBook.do?isbn=<%= book.getIsbn() %>">Delete</a></td>
-						<td><a href = "editForm.do?isbn=<%= book.getIsbn() %>">Edit</a></td>
+						<td><a href = "editBookForm.do?isbn=<%= book.getIsbn() %>">Edit</a></td>
 					</tr>
 				<% } %>
 		</table>
