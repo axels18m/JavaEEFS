@@ -32,9 +32,10 @@
 				<input id="title" type="text" name= "title"/>
 			</p>
 			
-			<button value = "insert" type="submit">Insert</button>
+			<button value = "insert" type="submit" onclick="insert()">Insert</button>
 			<a href = "showBooks.do"><button>Cancel</button></a>
 		</fieldset>
 	</form>
+	<script src="register.js"></script>
 </body>
 </html>

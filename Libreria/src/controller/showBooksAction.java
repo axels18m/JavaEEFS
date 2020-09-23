@@ -12,17 +12,18 @@ public class showBooksAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-		List<Libro> listOfBooks;
+		List<Libro> listOfBooks = null;
+		List<String> listOfCategories = null;
 		try {
 			listOfBooks = Libro.getAll();
-			List<String> listOfCategories = Libro.getAllCategories();
+			listOfCategories = Libro.getAllCategories();
 			request.setAttribute("listOfBooks", listOfBooks);
 			request.setAttribute("listOfCategories", listOfCategories);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return "showBooks.jsp";
+		if (listOfBooks != null && listOfBooks.size() != 0) { return "showBooks.jsp"; }  else { return "insertBookForm.jsp"; }
 	}
 
 }

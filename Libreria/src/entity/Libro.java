@@ -1,14 +1,18 @@
 package entity;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import databaseH.DataBaseException;
 import databaseH.DataBaseHelper;
 
-
 // Shift + Alt + S +G -> Setter and getters
+
+@Entity
+@Table(name="Libros")
 public class Libro 
 {
 	private int isbn;
@@ -113,4 +117,15 @@ public class Libro
 		List<Libro> listOfBooks = helper.selectRecords(query, Libro.class);
 		return listOfBooks.get(0);
 	}
+	
+	/*
+	@Override
+	public int hashCode() { return isbn.hashCode(); }
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		int isbn = ((Libro) o).getIsbn();
+		return isbn.equals(isbn);
+	}*/
 }
