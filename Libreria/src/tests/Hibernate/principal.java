@@ -10,14 +10,15 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import entity.Libro;
+import hibernate.hibernateHelper;
 
 public class principal 
 {
 	public static void main(String[] args)
 	{
 		principal p = new principal();
-		//insert();
-		p.select();
+		//p.insert();
+		//p.select();
 	}
 	
 	private void insert()
@@ -31,11 +32,12 @@ public class principal
 			SessionFactory factory = new Configuration().configure().buildSessionFactory();
 			session = factory.openSession();
 			transaction = session.beginTransaction();
-			session.saveOrUpdate(new Libro(1000, 0, 0, "TestHibernate"));
+			session.saveOrUpdate(new Libro(2, 0, 0, "TestHibernate"));
 			transaction.commit();
 		
 		} catch (HibernateException e) {
 			System.out.println(e.getMessage() +","+e.getCause());
+			e.printStackTrace();
 			transaction.rollback();
 		
 		} finally {
