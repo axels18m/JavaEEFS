@@ -14,17 +14,17 @@ public class GetByCagetogyAction extends Action
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
-		List<Libro> listOfBookss = null;
-		List<String> listOfCategories;
+		List<Libro> listOfBooks = null;
+		List<Libro> listOfCategories;
 		try {
 			listOfCategories = Libro.getAllCategories();
 			if (request.getParameter("category") == null || request.getParameter("category").equals("select")) {
-				listOfBookss = Libro.getAll();
+				listOfBooks = Libro.getAll();
 			} else {
-				listOfBookss = Libro.getByCategory(request.getParameter("category"));
+				listOfBooks = Libro.getByCategory(Integer.parseInt(request.getParameter("category")));
 			}
 			
-			request.setAttribute("listOfBooks", listOfBookss);
+			request.setAttribute("listOfBooks", listOfBooks);
 			request.setAttribute("listOfCategories", listOfCategories);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

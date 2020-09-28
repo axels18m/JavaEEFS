@@ -8,19 +8,15 @@
   </head>
   <body>
 
-    <ul class="nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">New</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#">Edit</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#">Delete</a>
-        </li>
-      </ul>
+	<div class = "row">
+		<div class = "col-4">
+			<div class="list-group">
+				<a class = "list-group-item list-group-item-action active" href="insertBookForm.do">New Book</a>
+				<a class = "list-group-item list-group-item-action" href="showBooks.do">All</a>
+				<a class="list-group-item list-group-item-action" href="#">New Category</a>
+			</div>
+		</div>
+	</div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

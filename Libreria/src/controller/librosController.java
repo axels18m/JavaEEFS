@@ -19,6 +19,7 @@ public class librosController extends HttpServlet
 		RequestDispatcher dispatcher = null;
 		Action action = null;
 		String url = request.getServletPath();
+		System.out.println(url);
 		action = Action.getAction(url.substring(1, url.length() - 3));
 		dispatcher = request.getRequestDispatcher(action.execute(request, response));
 		dispatcher.forward(request, response);

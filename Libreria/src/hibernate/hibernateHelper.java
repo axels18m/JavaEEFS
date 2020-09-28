@@ -7,7 +7,7 @@ public class hibernateHelper
 {
 	private static final SessionFactory sessionFactory = buildSessionFactory();
 	
-	public static SessionFactory buildSessionFactory()
+	private static SessionFactory buildSessionFactory()
 	{
 		return new Configuration().configure().buildSessionFactory();
 	}

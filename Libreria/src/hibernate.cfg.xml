@@ -14,8 +14,8 @@
 		<!-- How the metadata will be extract -->
 		<property name="show_sql">true</property>
 		<!-- Mapping data -->
-		<!-- <mapping resource="mapping/Libro.xml"/>  -->
 		<mapping class = "entity.Libro"/>
+		<mapping class = "entity.Categoria"/>
     </session-factory>
 </hibernate-configuration>
  

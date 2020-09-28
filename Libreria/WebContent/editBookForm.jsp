@@ -19,17 +19,17 @@
 			</p>
 			<p>
 				<label for = "author">Author:</label>
-				<input type = "text" id ="author" name = "author" value = "<%= libro.getAuth_lib() %>"/>
+				<input type = "text" id ="author" name = "author" value = "<%= libro.getAuthor() %>"/>
 			</p>
 			
 			<p>
 				<label for = "category">Category:</label>
-				<input type = "text" id ="title" name = "category" value = "<%= libro.getCat_lib() %>"/>
+				<input type = "text" id ="title" name = "category" value = "<%= libro.getCategory() %>"/>
 			</p>
 			
 			<p>
 				<label for = "title">Title:</label>
-				<input type = "text" id ="title" name = "title" value = "<%= libro.getTit_lib() %>"/>
+				<input type = "text" id ="title" name = "title" value = "<%= libro.getTitle() %>"/>
 			</p>
 			<button type = "submit">Save</button>
 		</fieldset>

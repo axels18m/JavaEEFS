@@ -8,63 +8,52 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<style>
-	table, th, td 
-	{
-	  border: 1px solid black;
-	  padding: 5px;
-	}
-</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-	<form action ="showBooks.jsp" method = "post">
-		<table>
-			<tr>
-				<th>ISBN</th>
-				<th>Author</th>
-				<th>Title</th>
-				<th>Category</th>
-			</tr>
-			<%
-				List<Libro> listOfBooks = null;
-				if (request.getParameter("category") == null || request.getParameter("category").equals("select"))
-				{
-					listOfBooks = Libro.getAll();
-					
-				} else {
-					listOfBooks = Libro.getByCategory(request.getParameter("category"));
-				}
-				
-				for (Libro book: listOfBooks)
-				{
-					%>
-					<tr>
-						<td><%= book.getIsbn() %> </td>
-						<td><%= book.getAuth_lib() %></td>
-						<td><%= book.getCat_lib() %></td>
-						<td><%= book.getTit_lib() %></td>
-					
-						<td><a href = "deleteBook.do?isbn=<%= book.getIsbn() %>">Delete</a></td>
-						<td><a href = "editBookForm.do?isbn=<%= book.getIsbn() %>">Edit</a></td>
-					</tr>
-				<% } %>
-		</table>
-		
-		<select name = "category" id = "category">
-			<option value = "select">seleccionar</option>
-			<%
-				List<String> listOfCategories = null;
-				listOfCategories = Libro.getAllCategories();
-				pageContext.setAttribute("listOfCategories", listOfCategories);
-			%>
-			
-			<c:forEach var = "category" items = "${ listOfCategories }">
-				<option value = "${ category }"> ${ category }</option>
-			</c:forEach>
-		</select>
-		<input type = "submit" values = "Filter"/>
-		<button><a href = "insertBookForm.jsp">New Book</a></button>
+	<form action ="filter.do" name ="filterCategory">
+		<div class="input-group mb-3">
+		 	<div class="input-group-prepend">
+		    	<label class="input-group-text" for="inputGroupSelect01">Options</label>
+		 	</div>
+			<select class="custom-select" name="category">
+				<c:forEach var="category" items="${listOfCategories}">
+					<option value="${category.id}">${category.description}</option>
+				</c:forEach>
+			</select>
+			<input type = "submit" values = "filter"/>
+		</div>
 	</form>
-		
+	<br/>
+	
+	<table class= "table">
+		<thead class= "table-dark">
+			<tr>
+				<th scope="col">ISBN</th>
+				<th scope="col">Author</th>
+				<th scope="col">Title</th>
+				<th scope="col">Category</th>
+				<th scope="col">Category</th>
+				<th scope="col">Edit</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="libro" items="${listOfBooks}">
+				<tr>
+					<td scope="row">${libro.isbn}</td>
+					<td>${libro.author}</td>
+					<td>${libro.cat.description}</td>
+					<td>${libro.title}</td>
+					<td><a href = "deleteBook.do?isbn=${libro.isbn}">Delete</a></td>
+					<td><a href = "editBookForm.do?isbn=${libro.isbn}">Edit</a></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+		<button><a href = "insertBookForm.do">New Book</a></button>
+	</table>	
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

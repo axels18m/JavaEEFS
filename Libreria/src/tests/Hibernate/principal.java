@@ -19,6 +19,7 @@ public class principal
 		principal p = new principal();
 		//p.insert();
 		//p.select();
+		p.TestJoins();
 	}
 	
 	private void insert()
@@ -64,5 +65,18 @@ public class principal
 		} finally {
 			session.close();
 		}
+	}
+	
+	public void TestJoins()
+	{
+		SessionFactory factory = hibernateHelper.getSessionFactory();
+		Session session = factory.openSession();
+		List<Libro> listOfBooks = session.createQuery("from Libro libro").list();
+		for(Libro libro : listOfBooks)
+		{
+			System.out.println(libro.getCategory());
+			System.out.println(libro.getCat().getDescription());
+		}
+		session.close();
 	}
 }

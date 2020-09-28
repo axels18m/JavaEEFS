@@ -4,8 +4,8 @@
 <hibernate-mapping package="entity">
 	<class name="Libro" table="Libros">
 		<id name="isbn" type="int"/>
-		<property name="auth_lib" type="int" column="author" />
-		<property name="cat_lib" type="int" column="category" />
-		<property name="tit_lib" type="string" column="title" />
+		<property name="author" type="int" column="author" />
+		<property name="category" type="int" column="category" />
+		<property name="title" type="string" column="title" />
 	</class>
 </hibernate-mapping>

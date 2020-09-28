@@ -5,13 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class Action 
 {
+	static String className = Action.class.getPackage().getName();
 	public abstract String execute(HttpServletRequest request, HttpServletResponse response);
 	
 	public static Action getAction(String type)
 	{
 		Action action = null;
 		try {
-			action = (Action) Class.forName(Action.class.getPackage().getName() + "." + type + "Action").newInstance();
+			action = (Action) Class.forName(className + "." + type + "Action").newInstance();
 		} catch (InstantiationException e) {
 			
 		} catch (IllegalAccessException e) {

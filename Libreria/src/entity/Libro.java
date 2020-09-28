@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.Session;
@@ -21,18 +23,23 @@ import hibernate.hibernateHelper;
 @Table(name = "Libros")
 public class Libro 
 {
+	/* Start -> hibernate.cfg.xml -> sessionFactory -> session -> transaction -> commit */
 	@Id
 	private int isbn;
-	private int auth_lib;
-	private int cat_lib;
-	private String tit_lib;
+	private int author;
+	private int category;
+	private String title;
+	
+	@ManyToOne(optional = false)
+	@JoinColumn (name = "category", insertable = false, updatable=false)
+	private Categoria cat;
 	
 	public Libro(int isbn, int aut_lib, int cat_lib, String tit_lib)
 	{
 		this.isbn = isbn;
-		this.auth_lib = aut_lib;
-		this.cat_lib = cat_lib;
-		this.tit_lib = tit_lib;
+		this.author = aut_lib;
+		this.category = cat_lib;
+		this.title = tit_lib;
 	}
 	
 	public Libro() { super(); }
@@ -47,28 +54,28 @@ public class Libro
 		this.isbn = isbn;
 	}
 
-	public int getAuth_lib() {
-		return this.auth_lib;
+	public int getAuthor() {
+		return this.author;
 	}
 
-	public void setAuth_lib(int auth_lib) {
-		this.auth_lib = auth_lib;
+	public void setAuthor(int author) {
+		this.author = author;
 	}
 
-	public int getCat_lib() {
-		return this.cat_lib;
+	public int getCategory() {
+		return this.category;
 	}
 
-	public void setCat_lib(int cat_lib) {
-		this.cat_lib = cat_lib;
+	public void setCategory(int category) {
+		this.category = category;
 	}
 
-	public String getTit_lib() {
-		return this.tit_lib;
+	public String getTitle() {
+		return this.title;
 	}
 
-	public void setTit_lib(String tit_lib) {
-		this.tit_lib = tit_lib;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	public void save() throws DataBaseException
@@ -76,7 +83,7 @@ public class Libro
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
-		session.save(this);
+		session.saveOrUpdate(this);
 		session.getTransaction().commit();
 	}
 	
@@ -85,7 +92,7 @@ public class Libro
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
 		session.beginTransaction();
-		session.save(this);
+		session.saveOrUpdate(this);
 		session.getTransaction().commit();
 	}
 
@@ -98,41 +105,43 @@ public class Libro
 		session.getTransaction().commit();
 	}
 	
-	@SuppressWarnings({ "unchecked", "deprecation" })
-	public static List<Libro> getByCategory(String category) throws SQLException
+	@SuppressWarnings({ "unchecked" })
+	public static List<Libro> getByCategory(int category) throws SQLException
 	{
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
-		Query query = session.createQuery("from Libro libro where libro.category=:category");
-		query.setString("category", category);
+		Query<Libro> query = session.createQuery(" from Libro libro where libro.category="+category);
+		//query.setInteger("category", category);
 		List<Libro> listOfBooks = query.list();
 		session.close();
 		return listOfBooks;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static List<Libro> getAllCategories() throws SQLException
 	{
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
-		List<Libro> listOfCategories = session.createQuery("select distinct libro.category from Libro libro").list();
+		List<Libro> listOfCategories = session.createQuery(" select distinct libro.category from Libro libro").list();
 		session.close();
 		return listOfCategories;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static List<Libro> getAll() throws SQLException
 	{
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
-		List<Libro> listOfCategories = session.createQuery("from Libro libro").list();
+		List<Libro> listOfBooks = session.createQuery("from Libro libro right join fetch libro.cat").list();
 		session.close();
-		return listOfCategories;
+		return listOfBooks;
 	}
 	
 	public static Libro getById(int isbn) throws SQLException
 	{
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
-		Libro libro = (Libro) session.get(Libro.class,isbn);
+		Libro libro = session.get(Libro.class, isbn);
 		session.close();
 		return libro;
 	}
@@ -146,5 +155,15 @@ public class Libro
 	{
 		int isbn = ((Libro) o).getIsbn();
 		return true;
+	}
+	
+	public Categoria getCat()
+	{
+		return cat;
+	}
+	
+	public void setCat(Categoria Cat)
+	{
+		this.cat = Cat;
 	}
 }
