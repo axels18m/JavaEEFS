@@ -2,6 +2,11 @@ package tests.Hibernate;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -19,7 +24,8 @@ public class principal
 		principal p = new principal();
 		//p.insert();
 		//p.select();
-		p.TestJoins();
+		//p.TestJoins();
+		p.TestJpa();
 	}
 	
 	private void insert()
@@ -78,5 +84,19 @@ public class principal
 			System.out.println(libro.getCat().getDescription());
 		}
 		session.close();
+	}
+	
+	public void TestJpa()
+	{
+		EntityManagerFactory managerFac = Persistence.createEntityManagerFactory("LibreriaJava");
+		
+		/* EntityManager	->	Manage the life cycle of the entities and is able to save objects in our DB as select them through queries. */
+		EntityManager managerE = managerFac.createEntityManager();
+		TypedQuery<Libro> query = managerE.createQuery("select libro from Libro libro", Libro.class);
+		List<Libro> listOfBooks = query.getResultList();
+		for(Libro libro : listOfBooks)
+		{
+			System.out.println(libro.getTitle());
+		}
 	}
 }

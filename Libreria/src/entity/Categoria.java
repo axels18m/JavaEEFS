@@ -3,6 +3,9 @@ package entity;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -12,6 +15,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import hibernate.hibernateHelper;
+import jpa.JPAHelper;
 
 @Entity
 @Table(name = "Categorias")
@@ -68,16 +72,6 @@ public class Categoria
 	public boolean equals (Object obj)
 	{
 		return (((Categoria) obj).getId() != 0) ? true : false;
-	}
-	
-	public List<Libro> getListOfBooks()
-	{
-		return listOfBooks;
-	}
-	
-	public void setListOfBooks(List<Libro> listBooks)
-	{
-		this.listOfBooks = listBooks;
 	}
 	
 }

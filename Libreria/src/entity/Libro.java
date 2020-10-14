@@ -4,10 +4,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceException;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,6 +21,7 @@ import org.hibernate.query.Query;
 import databaseH.DataBaseException;
 import databaseH.DataBaseHelper;
 import hibernate.hibernateHelper;
+import jpa.JPAHelper;
 
 // Shift + Alt + S +G -> Setter and getters
 
@@ -80,70 +86,109 @@ public class Libro
 	
 	public void save() throws DataBaseException
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		session.saveOrUpdate(this);
-		session.getTransaction().commit();
+		EntityManager manager = jpa();
+		EntityTransaction transaction = manager.getTransaction();
+		
+		try {
+			transaction.begin();
+			manager.merge(this);
+			transaction.commit();
+		} catch(PersistenceException e) {
+			/* Roll back (revierte) the current resource transaction. */
+			manager.getTransaction().rollback();
+			
+		} finally {
+			manager.close();
+				
+		}
 	}
 	
 	public void insert() throws DataBaseException  
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		session.saveOrUpdate(this);
-		session.getTransaction().commit();
+		EntityManager manager = jpa();
+		
+		try {
+			EntityTransaction transaction = manager.getTransaction();
+			transaction.begin();
+			manager.persist(this);
+			transaction.commit();
+		} catch(PersistenceException e) {
+			/* Roll back (revierte) the current resource transaction. */
+			manager.getTransaction().rollback();
+			
+		} finally {
+			manager.close();
+				
+		}
 	}
 
 	public void delete () throws DataBaseException
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		session.beginTransaction();
-		session.delete(this);
-		session.getTransaction().commit();
+		EntityManager manager = jpa();
+		
+		try {
+			EntityTransaction transaction = manager.getTransaction();
+			transaction.begin();
+			manager.merge(this);
+			transaction.commit();
+		} catch(PersistenceException e) {
+			/* Roll back (revierte) the current resource transaction. */
+			manager.getTransaction().rollback();
+			
+		} finally {
+			manager.close();
+				
+		}
 	}
 	
+	public static EntityManager jpa()
+	{
+		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
+		return manager;
+	}
+
 	@SuppressWarnings({ "unchecked" })
 	public static List<Libro> getByCategory(int category) throws SQLException
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		Query<Libro> query = session.createQuery(" from Libro libro where libro.category="+category);
-		//query.setInteger("category", category);
-		List<Libro> listOfBooks = query.list();
-		session.close();
+		EntityManager manager = jpa();
+		TypedQuery<Libro> query = manager.createQuery("from Libro libro where libro.category= " +category, Libro.class);
+		List<Libro> listOfBooks = null;
+		
+		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
 		return listOfBooks;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static List<Libro> getAllCategories() throws SQLException
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		List<Libro> listOfCategories = session.createQuery(" select distinct libro.category from Libro libro").list();
-		session.close();
+		EntityManager manager = jpa();
+		TypedQuery<Libro> query = manager.createQuery("select distinct libro.category from Libro libro", Libro.class);
+		List<Libro> listOfCategories = null;
+		
+		try { listOfCategories = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
 		return listOfCategories;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static List<Libro> getAll() throws SQLException
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		List<Libro> listOfBooks = session.createQuery("from Libro libro right join fetch libro.cat").list();
-		session.close();
+		EntityManager manager = jpa();
+		TypedQuery<Libro> query = manager.createQuery("from Libro libro right join fetch libro.cat", Libro.class);
+		List<Libro> listOfBooks = null;
+		
+		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
 		return listOfBooks;
 	}
 	
 	public static Libro getById(int isbn) throws SQLException
 	{
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		Libro libro = session.get(Libro.class, isbn);
-		session.close();
-		return libro;
+		EntityManager manager = jpa();
+		TypedQuery<Libro> query = manager.createQuery("select libro from Libro libro join fetch libro.category where libro.isbn =" + isbn, Libro.class);
+		Libro book = null;
+		
+		try { book = query.getSingleResult(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
+		return book;
 	}
 	
 	
