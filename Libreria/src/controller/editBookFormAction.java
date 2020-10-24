@@ -6,8 +6,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.CategoriaDAO;
+import dao.LibroDAO;
 import entity.Categoria;
 import entity.Libro;
+import jpa.CategoriaDAOJPAImpl;
+import jpa.LibroDAOJPAImpl;
 
 public class editBookFormAction extends Action
 {
@@ -17,11 +21,11 @@ public class editBookFormAction extends Action
 	{
 		Libro libro;
 		try {
-			List<Categoria> listOfCategories = Categoria.getAll();
-			libro = Libro.getById(Integer.parseInt(request.getParameter("isbn")));
+			List<Categoria> listOfCategories = new CategoriaDAOJPAImpl().getAll();
+			libro = new LibroDAOJPAImpl().getById(Integer.parseInt(request.getParameter("isbn")));
 			request.setAttribute("listOfCategories", listOfCategories);
 			request.setAttribute("libro", libro);
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

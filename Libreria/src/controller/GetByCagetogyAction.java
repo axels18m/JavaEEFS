@@ -6,7 +6,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.LibroDAO;
 import entity.Libro;
+import jpa.LibroDAOJPAImpl;
 
 public class GetByCagetogyAction extends Action 
 {
@@ -17,11 +19,11 @@ public class GetByCagetogyAction extends Action
 		List<Libro> listOfBooks = null;
 		List<Libro> listOfCategories;
 		try {
-			listOfCategories = Libro.getAllCategories();
+			listOfCategories = new LibroDAOJPAImpl().getAll();
 			if (request.getParameter("category") == null || request.getParameter("category").equals("select")) {
-				listOfBooks = Libro.getAll();
+				listOfBooks = new LibroDAOJPAImpl().getAll();
 			} else {
-				listOfBooks = Libro.getByCategory(Integer.parseInt(request.getParameter("category")));
+				listOfBooks = new LibroDAOJPAImpl().getByCategory(Integer.parseInt(request.getParameter("category")));
 			}
 			
 			request.setAttribute("listOfBooks", listOfBooks);

@@ -3,8 +3,8 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import databaseH.DataBaseException;
 import entity.Libro;
+import jpa.LibroDAOJPAImpl;
 
 public class deleteBookAction extends Action
 {
@@ -13,8 +13,8 @@ public class deleteBookAction extends Action
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
 		try {
-			new Libro(Integer.parseInt(request.getParameter("isbn"))).delete();
-		} catch (NumberFormatException | DataBaseException e) {
+			new LibroDAOJPAImpl().delete(new Libro(Integer.parseInt(request.getParameter("isbn"))));
+		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

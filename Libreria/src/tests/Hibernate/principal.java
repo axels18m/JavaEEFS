@@ -108,21 +108,27 @@ public class principal
 		}
 	}
 	
-	public void testJPA() throws NumberFormatException, IOException
-	{
-		String txt = "";
-		Reader reader = new FileReader("libros.txt");
-		BufferedReader bufferedR = new BufferedReader(reader);
+	public void testJPA()
+	{	
 		List<Libro> listOfBooks = new ArrayList<Libro>();
-		Libro book = null;
-		Categoria category = null;
-		
-		while ((txt = bufferedR.readLine()) != null)
+		try 
 		{
-			String data[] = txt.split(",");
-			category = new Categoria(Integer.parseInt(data[2]), data[3]);
-			book = new Libro(Integer.parseInt(data[0]), Integer.parseInt(data[1]), category);
-			listOfBooks.add(book);
+			String txt = "";
+			Reader reader = new FileReader("libros.txt");
+			BufferedReader bufferedR = new BufferedReader(reader);
+			Libro book = null;
+			Categoria category = null;
+		
+			while ((txt = bufferedR.readLine()) != null)
+			{
+				String data[] = txt.split(",");
+				category = new Categoria(Integer.parseInt(data[2]), data[3]);
+				book = new Libro(Integer.parseInt(data[0]), Integer.parseInt(data[1]), category);
+				listOfBooks.add(book);
+			}
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		for (Libro l : listOfBooks)

@@ -54,7 +54,8 @@ public class Libro
 	{
 		this.isbn = isbn;
 		this.author = auth_lib;
-		this.cat = categoria;
+		this.category = categoria.getId();
+		this.title = categoria.getDescription();
 	}
 	
 	public Libro(int isbn) { super(); this.isbn = isbn; } 
@@ -90,114 +91,6 @@ public class Libro
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
-	public void save() throws DataBaseException
-	{
-		EntityManager manager = jpa();
-		EntityTransaction transaction = manager.getTransaction();
-		
-		try {
-			transaction.begin();
-			manager.merge(this);
-			transaction.commit();
-		} catch(PersistenceException e) {
-			/* Roll back (revierte) the current resource transaction. */
-			manager.getTransaction().rollback();
-			
-		} finally {
-			manager.close();
-				
-		}
-	}
-	
-	public void insert() throws DataBaseException  
-	{
-		EntityManager manager = jpa();
-		
-		try {
-			EntityTransaction transaction = manager.getTransaction();
-			transaction.begin();
-			manager.persist(this);
-			transaction.commit();
-		} catch(PersistenceException e) {
-			/* Roll back (revierte) the current resource transaction. */
-			manager.getTransaction().rollback();
-			
-		} finally {
-			manager.close();
-				
-		}
-	}
-
-	public void delete () throws DataBaseException
-	{
-		EntityManager manager = jpa();
-		
-		try {
-			EntityTransaction transaction = manager.getTransaction();
-			transaction.begin();
-			manager.remove(manager.merge(this));
-			transaction.commit();
-		} catch(PersistenceException e) {
-			/* Roll back (revierte) the current resource transaction. */
-			manager.getTransaction().rollback();
-			
-		} finally {
-			manager.close();
-				
-		}
-	}
-	
-	public static EntityManager jpa()
-	{
-		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
-		EntityManager manager = factorySession.createEntityManager();
-		return manager;
-	}
-
-	public static List<Libro> getByCategory(int category) throws SQLException
-	{
-		EntityManager manager = jpa();
-		TypedQuery<Libro> query = manager.createQuery("from Libro libro where libro.category= " +category, Libro.class);
-		List<Libro> listOfBooks = null;
-		
-		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
-		return listOfBooks;
-	}
-	
-	public static List<Libro> getAllCategories() throws SQLException
-	{
-		EntityManager manager = jpa();
-		TypedQuery<Libro> query = manager.createQuery("select distinct libro.category from Libro libro", Libro.class);
-		List<Libro> listOfCategories = null;
-		
-		try { listOfCategories = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
-		return listOfCategories;
-	}
-	
-	public static List<Libro> getAll() throws SQLException
-	{
-		EntityManager manager = jpa();
-		TypedQuery<Libro> query = manager.createQuery("from Libro libro right join fetch libro.cat", Libro.class);
-		List<Libro> listOfBooks = null;
-		
-		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
-		return listOfBooks;
-	}
-	
-	public static Libro getById(int isbn) throws SQLException
-	{
-		EntityManager manager = jpa();
-		TypedQuery<Libro> query = manager.createQuery("select libro from Libro libro join fetch libro.cat where libro.isbn =" + isbn, Libro.class);
-		Libro book = null;
-		
-		try { book = query.getSingleResult(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
-		return book;
-	}
-	
-	
-	//@Override
-	//public int hashCode() { return isbn.hashCode(); }
 	
 	@Override
 	public boolean equals(Object o)

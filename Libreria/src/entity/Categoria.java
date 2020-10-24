@@ -61,28 +61,4 @@ public class Categoria
 		this.description = description;
 	}
 	
-	public static List<Categoria> getAll()
-	{
-		/*
-		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
-		EntityManager manager = factorySession.createEntityManager();
-		TypedQuery<Categoria> query = manager.createQuery("from Categoria category", Categoria.class);
-		List<Categoria> listOfCategories = null;
-		
-		try { listOfCategories = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
-		return listOfCategories; */
-		
-		SessionFactory factory = hibernateHelper.getSessionFactory();
-		Session session = factory.openSession();
-		List<Categoria> listOfCategories = session.createQuery("from Categoria category").list();
-		session.close();
-		return listOfCategories;
-	}
-	
-	@Override
-	public boolean equals (Object obj)
-	{
-		return (((Categoria) obj).getId() != 0) ? true : false;
-	}
-	
 }

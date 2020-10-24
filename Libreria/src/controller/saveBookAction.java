@@ -3,8 +3,10 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.LibroDAO;
 import databaseH.DataBaseException;
 import entity.Libro;
+import jpa.LibroDAOJPAImpl;
 
 public class saveBookAction extends Action
 {
@@ -17,7 +19,7 @@ public class saveBookAction extends Action
 		int category = Integer.parseInt(request.getParameter("category"));
 		String title = request.getParameter("title");
 		
-		try { new Libro(isbn, author, category, title).save(); } catch (DataBaseException e) { e.printStackTrace(); }
+		new LibroDAOJPAImpl().save(new Libro(isbn, author, category, title));
 		return "showBooks.jsp";
 	}
 
