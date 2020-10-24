@@ -1,5 +1,10 @@
 package tests.Hibernate;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -14,18 +19,20 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import entity.Categoria;
 import entity.Libro;
 import hibernate.hibernateHelper;
 
 public class principal 
 {
-	public static void main(String[] args)
+	public static void main(String[] args) throws NumberFormatException, IOException
 	{
 		principal p = new principal();
 		//p.insert();
 		//p.select();
 		//p.TestJoins();
-		p.TestJpa();
+		///p.TestJpa();
+		p.testJPA();
 	}
 	
 	private void insert()
@@ -92,11 +99,35 @@ public class principal
 		
 		/* EntityManager	->	Manage the life cycle of the entities and is able to save objects in our DB as select them through queries. */
 		EntityManager managerE = managerFac.createEntityManager();
+		/* Query -> Class Libro -> DB Libro Table */
 		TypedQuery<Libro> query = managerE.createQuery("select libro from Libro libro", Libro.class);
 		List<Libro> listOfBooks = query.getResultList();
 		for(Libro libro : listOfBooks)
 		{
 			System.out.println(libro.getTitle());
+		}
+	}
+	
+	public void testJPA() throws NumberFormatException, IOException
+	{
+		String txt = "";
+		Reader reader = new FileReader("libros.txt");
+		BufferedReader bufferedR = new BufferedReader(reader);
+		List<Libro> listOfBooks = new ArrayList<Libro>();
+		Libro book = null;
+		Categoria category = null;
+		
+		while ((txt = bufferedR.readLine()) != null)
+		{
+			String data[] = txt.split(",");
+			category = new Categoria(Integer.parseInt(data[2]), data[3]);
+			book = new Libro(Integer.parseInt(data[0]), Integer.parseInt(data[1]), category);
+			listOfBooks.add(book);
+		}
+		
+		for (Libro l : listOfBooks)
+		{
+			System.out.println(l.getTitle());
 		}
 	}
 }

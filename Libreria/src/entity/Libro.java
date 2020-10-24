@@ -50,6 +50,13 @@ public class Libro
 	
 	public Libro() { super(); }
 	
+	public Libro(int isbn, int auth_lib, Categoria categoria)
+	{
+		this.isbn = isbn;
+		this.author = auth_lib;
+		this.cat = categoria;
+	}
+	
 	public Libro(int isbn) { super(); this.isbn = isbn; } 
 	
 	public int getIsbn() {
@@ -129,7 +136,7 @@ public class Libro
 		try {
 			EntityTransaction transaction = manager.getTransaction();
 			transaction.begin();
-			manager.merge(this);
+			manager.remove(manager.merge(this));
 			transaction.commit();
 		} catch(PersistenceException e) {
 			/* Roll back (revierte) the current resource transaction. */
@@ -148,7 +155,6 @@ public class Libro
 		return manager;
 	}
 
-	@SuppressWarnings({ "unchecked" })
 	public static List<Libro> getByCategory(int category) throws SQLException
 	{
 		EntityManager manager = jpa();
@@ -159,7 +165,6 @@ public class Libro
 		return listOfBooks;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static List<Libro> getAllCategories() throws SQLException
 	{
 		EntityManager manager = jpa();
@@ -170,7 +175,6 @@ public class Libro
 		return listOfCategories;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static List<Libro> getAll() throws SQLException
 	{
 		EntityManager manager = jpa();
@@ -184,7 +188,7 @@ public class Libro
 	public static Libro getById(int isbn) throws SQLException
 	{
 		EntityManager manager = jpa();
-		TypedQuery<Libro> query = manager.createQuery("select libro from Libro libro join fetch libro.category where libro.isbn =" + isbn, Libro.class);
+		TypedQuery<Libro> query = manager.createQuery("select libro from Libro libro join fetch libro.cat where libro.isbn =" + isbn, Libro.class);
 		Libro book = null;
 		
 		try { book = query.getSingleResult(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="entity.Libro" %>
 <% Libro libro = Libro.getById(Integer.parseInt(request.getParameter("isbn")));%>
 
@@ -23,8 +24,12 @@
 			</p>
 			
 			<p>
-				<label for = "category">Category:</label>
-				<input type = "text" id ="title" name = "category" value = "<%= libro.getCategory() %>"/>
+				<label for="category">Category:</label>
+				<select  name="category">
+					<c:forEach var="category" items="${ listOfCategories }">
+						<option value="${ category.id }">${ category.description }</option>
+					</c:forEach>
+				</select><br />
 			</p>
 			
 			<p>

@@ -1,6 +1,5 @@
 package tests.Spring;
 
-import java.io.FileInputStream;
 import java.util.Properties;
 
 public class messageFactory 

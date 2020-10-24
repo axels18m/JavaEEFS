@@ -10,7 +10,7 @@ public class JPAHelper
 	private static EntityManagerFactory buildEntityManagerFactory()
 	{
 		try {
-			return Persistence.createEntityManagerFactory("JavaLibreria");
+			return Persistence.createEntityManagerFactory("LibreriaJava");
 		} catch(Throwable ex) {
 			throw new RuntimeException("Error al crear la factoria de JPA");
 		}

@@ -9,7 +9,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.PersistenceException;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -61,6 +63,15 @@ public class Categoria
 	
 	public static List<Categoria> getAll()
 	{
+		/*
+		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
+		EntityManager manager = factorySession.createEntityManager();
+		TypedQuery<Categoria> query = manager.createQuery("from Categoria category", Categoria.class);
+		List<Categoria> listOfCategories = null;
+		
+		try { listOfCategories = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
+		return listOfCategories; */
+		
 		SessionFactory factory = hibernateHelper.getSessionFactory();
 		Session session = factory.openSession();
 		List<Categoria> listOfCategories = session.createQuery("from Categoria category").list();

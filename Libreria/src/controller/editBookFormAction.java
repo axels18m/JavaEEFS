@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entity.Categoria;
 import entity.Libro;
 
 public class editBookFormAction extends Action
@@ -16,7 +17,7 @@ public class editBookFormAction extends Action
 	{
 		Libro libro;
 		try {
-			List<Libro> listOfCategories = Libro.getAllCategories();
+			List<Categoria> listOfCategories = Categoria.getAll();
 			libro = Libro.getById(Integer.parseInt(request.getParameter("isbn")));
 			request.setAttribute("listOfCategories", listOfCategories);
 			request.setAttribute("libro", libro);
