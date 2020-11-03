@@ -1,27 +1,10 @@
 package entity;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PersistenceException;
 import javax.persistence.Table;
-import javax.persistence.TypedQuery;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-
-import databaseH.DataBaseException;
-import databaseH.DataBaseHelper;
-import hibernate.hibernateHelper;
-import jpa.JPAHelper;
 
 // Shift + Alt + S +G -> Setter and getters
 
@@ -60,35 +43,43 @@ public class Libro
 	
 	public Libro(int isbn) { super(); this.isbn = isbn; } 
 	
-	public int getIsbn() {
+	public int getIsbn() 
+	{
 		return this.isbn;
 	}
 
-	public void setIsbn(int isbn) {
+	public void setIsbn(int isbn) 
+	{
 		this.isbn = isbn;
 	}
 
-	public int getAuthor() {
+	public int getAuthor() 
+	{
 		return this.author;
 	}
 
-	public void setAuthor(int author) {
+	public void setAuthor(int author) 
+	{
 		this.author = author;
 	}
 
-	public int getCategory() {
+	public int getCategory() 
+	{
 		return this.category;
 	}
 
-	public void setCategory(int category) {
+	public void setCategory(int category) 
+	{
 		this.category = category;
 	}
 
-	public String getTitle() {
+	public String getTitle() 
+	{
 		return this.title;
 	}
 
-	public void setTitle(String title) {
+	public void setTitle(String title) 
+	{
 		this.title = title;
 	}
 	

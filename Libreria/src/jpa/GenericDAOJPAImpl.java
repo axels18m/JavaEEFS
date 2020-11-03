@@ -19,7 +19,9 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 	@SuppressWarnings("unchecked")
 	public GenericDAOJPAImpl()
 	{
-		/* Reflection */
+		/* Reflection
+		 * ParameterizedType represents a parameterized type such as Collection<String>. Is created the first time it's needed by a reflective method
+		 * getActualTypeArguments returns an array of Type objects representing the actual type arguments to this type. */
 		this.persistenceClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
@@ -39,7 +41,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 		List<T> listOfObjects = null;
 		
 		try {
-			TypedQuery<T> query = manager.createNamedQuery("select o from " + persistenceClass.getSimpleName() + " o", persistenceClass);
+			TypedQuery<T> query = manager.createNamedQuery("select l from " + persistenceClass.getSimpleName() + " l", persistenceClass);
 			listOfObjects = query.getResultList();
 			return listOfObjects;
 			

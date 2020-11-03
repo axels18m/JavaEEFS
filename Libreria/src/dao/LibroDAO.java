@@ -5,7 +5,7 @@ import java.util.List;
 import entity.Categoria;
 import entity.Libro;
 
-/* LibroDAO and CategoriaDAO are interfaces DAO (Data Acces Manager). */
+/* LibroDAO and CategoriaDAO are interfaces DAO (Data Access Manager). */
 public interface LibroDAO 
 {	
 	
