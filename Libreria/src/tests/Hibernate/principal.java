@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -32,7 +33,8 @@ public class principal
 		//p.select();
 		//p.TestJoins();
 		///p.TestJpa();
-		p.testJPA();
+		//p.testJPA();
+		p.readFichero();
 	}
 	
 	private void insert()
@@ -134,6 +136,25 @@ public class principal
 		for (Libro l : listOfBooks)
 		{
 			System.out.println(l.getTitle());
+		}
+	}
+	
+	public void readFichero()
+	{
+		Properties properties = new Properties();
+		String msg = null;
+		
+		try {
+			
+			/* Load the file where the file path is */
+			properties.load(principal.class.getResourceAsStream("settings.properties")); 
+			String type = properties.getProperty("persistence");
+			if (type.equals("jpa"))
+			{
+				System.out.println(type);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

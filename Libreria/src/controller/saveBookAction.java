@@ -20,7 +20,7 @@ public class saveBookAction extends Action
 		String title = request.getParameter("title");
 		
 		new LibroDAOJPAImpl().save(new Libro(isbn, author, category, title));
-		return "showBooks.jsp";
+		return "showBooks.do";
 	}
 
 }
