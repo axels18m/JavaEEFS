@@ -41,7 +41,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 		List<T> listOfObjects = null;
 		
 		try {
-			TypedQuery<T> query = manager.createNamedQuery("select l from " + persistenceClass.getSimpleName() + " l", persistenceClass);
+			TypedQuery<T> query = manager.createQuery("select l from " + persistenceClass.getSimpleName() + " l", persistenceClass);
 			listOfObjects = query.getResultList();
 			return listOfObjects;
 			

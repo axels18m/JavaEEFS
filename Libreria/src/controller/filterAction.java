@@ -14,13 +14,13 @@ public class filterAction extends Action
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
+		List<Libro> listOfBooks; 
 		try {
-			List<Libro> listOfBooks = LibroDAOJPAImpl.getByCategory(Integer.parseInt(request.getParameter("category")));
-			request.setAttribute("listOfBooks", listOfBooks);
+			listOfBooks = new LibroDAOJPAImpl().getByCategory(Integer.parseInt(request.getParameter("category")));
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			listOfBooks = new LibroDAOJPAImpl().getAll();
 		}
+		request.setAttribute("listOfBooks", listOfBooks);
 		return "showBooks.do";
 	}
 }

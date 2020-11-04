@@ -2,7 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="entity.Libro" %>
-<% Libro libro = Libro.getById(Integer.parseInt(request.getParameter("isbn")));%>
+<%@ page import="jpa.*" %>
+<% Libro libro = new LibroDAOJPAImpl().getById(Integer.parseInt(request.getParameter("isbn")));%>
 
 <!DOCTYPE html>
 <html>
