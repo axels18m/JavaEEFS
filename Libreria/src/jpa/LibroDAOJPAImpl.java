@@ -28,8 +28,9 @@ public class LibroDAOJPAImpl extends GenericDAOJPAImpl<Libro, Integer> implement
 		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
 		return listOfBooks;
 	}
-	
-	public List<Libro> getByCategory(int category)
+
+	@Override
+	public List<Libro> getBookByCat(int category) 
 	{
 		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
 		EntityManager manager = factorySession.createEntityManager();

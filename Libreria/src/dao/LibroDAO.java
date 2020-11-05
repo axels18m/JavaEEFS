@@ -15,4 +15,5 @@ public interface LibroDAO
 	/* getById needs to be as "Integer" due to GenericDAO is Serializable, and Serializable must use Clases. So, Integer is a class and we'll use it instead of int. */
 	public abstract Libro getById(Integer isbn);
 	public abstract List<Libro> getByCategory(Categoria category);
+	public abstract List<Libro> getBookByCat(int category);
 }

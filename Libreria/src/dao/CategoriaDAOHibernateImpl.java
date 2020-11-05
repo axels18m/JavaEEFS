@@ -12,4 +12,10 @@ public class CategoriaDAOHibernateImpl implements CategoriaDAO {
 		return null;
 	}
 
+	@Override
+	public Categoria getById(int category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

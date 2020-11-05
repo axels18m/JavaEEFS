@@ -37,4 +37,10 @@ public class LibroDAOHibernateImpl implements LibroDAO {
 		return null;
 	}
 
+	@Override
+	public List<Libro> getBookByCat(int category) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

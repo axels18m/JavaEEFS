@@ -11,19 +11,16 @@ import entity.Categoria;
 import entity.Libro;
 import factory.DAOAbstractFactory;
 import factory.DAOFactory;
+import service.LibrosImplService;
 
 public class showBooksAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
-		/* Building the different types of objects inside the persistence layer. */
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		LibroDAO libroDAO = factory.getLibroDAO();
-		CategoriaDAO categoriaDAO = factory.getCategoriaDAO();
-		
-		List<Libro> listOfBooks = libroDAO.getAll();
-		List<Categoria> listOfCategories = categoriaDAO.getAll();
+		LibrosImplService service = new LibrosImplService();
+		List<Libro> listOfBooks = service.getAll();
+		List<Categoria> listOfCategories = service.getAllCategories();
 		request.setAttribute("listOfBooks", listOfBooks);
 		request.setAttribute("listOfCategories", listOfCategories);
 

@@ -3,10 +3,14 @@ package controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.CategoriaDAO;
 import dao.LibroDAO;
 import databaseH.DataBaseException;
 import entity.Libro;
+import factory.DAOAbstractFactory;
+import factory.DAOFactory;
 import jpa.LibroDAOJPAImpl;
+import service.LibrosImplService;
 
 public class setNewBookAction extends Action 
 {

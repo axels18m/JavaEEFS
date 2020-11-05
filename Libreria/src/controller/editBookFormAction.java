@@ -10,8 +10,11 @@ import dao.CategoriaDAO;
 import dao.LibroDAO;
 import entity.Categoria;
 import entity.Libro;
+import factory.DAOAbstractFactory;
+import factory.DAOFactory;
 import jpa.CategoriaDAOJPAImpl;
 import jpa.LibroDAOJPAImpl;
+import service.LibrosImplService;
 
 public class editBookFormAction extends Action
 {
@@ -21,8 +24,10 @@ public class editBookFormAction extends Action
 	{
 		Libro libro;
 		try {
-			List<Categoria> listOfCategories = new CategoriaDAOJPAImpl().getAll();
-			libro = new LibroDAOJPAImpl().getById(Integer.parseInt(request.getParameter("isbn")));
+			LibrosImplService service = new LibrosImplService();
+			
+			List<Categoria> listOfCategories = service.getAllCategories();
+			libro = service.getById(Integer.parseInt(request.getParameter("isbn")));
 			request.setAttribute("listOfCategories", listOfCategories);
 			request.setAttribute("libro", libro);
 		} catch (NumberFormatException e) {
