@@ -21,7 +21,7 @@ public class GetByCagetogyAction extends Action
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
-		LibrosImplService service = new LibrosImplService();
+		LibrosService service = (LibrosService) getBean("servicioLibros", request);
 		List<Libro> listOfBooks = null;
 		List<Categoria> listOfCategories = service.getAllCategories();
 		

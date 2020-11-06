@@ -14,14 +14,14 @@ import factory.DAOAbstractFactory;
 import factory.DAOFactory;
 import jpa.CategoriaDAOJPAImpl;
 import service.LibrosImplService;
+import service.LibrosService;
 
 public class insertBookFormAction extends Action
 {
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response)
 	{
-		LibrosImplService service = new LibrosImplService();
-		List<Categoria> listOfCategories = service.getAllCategories();
+		List<Categoria> listOfCategories = ((LibrosService) getBean("servicioLibros", request)).getAllCategories();
 		request.setAttribute("listOfCategories", listOfCategories);
 		return "insertBookForm.jsp";
 	}

@@ -13,6 +13,7 @@ import factory.DAOAbstractFactory;
 import factory.DAOFactory;
 import jpa.LibroDAOJPAImpl;
 import service.LibrosImplService;
+import service.LibrosService;
 
 public class filterAction extends Action
 {
@@ -20,7 +21,7 @@ public class filterAction extends Action
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
 		List<Libro> listOfBooks; 
-		LibrosImplService service = new LibrosImplService();
+		LibrosService service = (LibrosService) getBean("servicioLibros", request);
 		try {
 			listOfBooks = service.getByCategory(Integer.parseInt(request.getParameter("category")));
 		} catch (NumberFormatException e) {

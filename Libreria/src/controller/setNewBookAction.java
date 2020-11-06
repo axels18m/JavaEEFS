@@ -11,6 +11,7 @@ import factory.DAOAbstractFactory;
 import factory.DAOFactory;
 import jpa.LibroDAOJPAImpl;
 import service.LibrosImplService;
+import service.LibrosService;
 
 public class setNewBookAction extends Action 
 {
@@ -21,8 +22,7 @@ public class setNewBookAction extends Action
 		int author = Integer.parseInt(request.getParameter("author"));
 		int category = Integer.parseInt(request.getParameter("category"));
 		String title = request.getParameter("title");
-		new LibroDAOJPAImpl().insert(new Libro(isbn, author, category, title));
-		//return "showBooks.do";
+		((LibrosService) getBean("servicioLibros", request)).insert(new Libro(isbn, author, category, title));
 		return "showBooks.do";
 	}
 }

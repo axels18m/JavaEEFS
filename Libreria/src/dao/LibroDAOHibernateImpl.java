@@ -43,4 +43,10 @@ public class LibroDAOHibernateImpl implements LibroDAO {
 		return null;
 	}
 
+	@Override
+	public void insert(Libro libro) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

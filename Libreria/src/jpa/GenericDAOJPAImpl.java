@@ -15,6 +15,7 @@ import dao.GenericDAO;
 public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements GenericDAO<T, Id> 
 {
 	private Class<T> persistenceClass;
+	private EntityManagerFactory entityManagerFactory;
 	
 	@SuppressWarnings("unchecked")
 	public GenericDAOJPAImpl()
@@ -24,6 +25,11 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 		 * getActualTypeArguments returns an array of Type objects representing the actual type arguments to this type. */
 		this.persistenceClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
+	
+	/*---- Methods that allow us to inject all the dependencies to DAO clases. ----*/
+	public EntityManagerFactory getEntityManagerFactory() { return entityManagerFactory; } 
+	public void setEntityManagerFactory( EntityManagerFactory manager) { this.entityManagerFactory = manager; }
+	/*---- ----*/
 	
 	@Override
 	public T getById(Id id)
@@ -52,7 +58,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 	
 	public void delete(T obj)
 	{
-		EntityManager manager = jpa();
+		EntityManager manager = getEntityManagerFactory().createEntityManager();
 		EntityTransaction transaction = null;
 		
 		try {
@@ -72,7 +78,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 	
 	public void save(T obj)
 	{
-		EntityManager manager = jpa();
+		EntityManager manager = getEntityManagerFactory().createEntityManager();
 		EntityTransaction transaction = null;
 		
 		try {
@@ -92,7 +98,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 	
 	public void insert(T obj)
 	{
-		EntityManager manager = jpa();
+		EntityManager manager = getEntityManagerFactory().createEntityManager();
 		EntityTransaction transaction = null;
 		
 		try {

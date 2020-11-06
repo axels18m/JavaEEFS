@@ -9,6 +9,7 @@ import factory.DAOAbstractFactory;
 import factory.DAOFactory;
 import jpa.LibroDAOJPAImpl;
 import service.LibrosImplService;
+import service.LibrosService;
 
 public class deleteBookAction extends Action
 {
@@ -17,8 +18,7 @@ public class deleteBookAction extends Action
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
 		try {
-			LibrosImplService service = new LibrosImplService();
-			service.delete(new Libro(Integer.parseInt(request.getParameter("isbn"))));
+			((LibrosService) getBean("servicioLibros", request)).delete(new Libro(Integer.parseInt(request.getParameter("isbn"))));
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

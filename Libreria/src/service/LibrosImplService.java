@@ -2,8 +2,6 @@ package service;
 
 import java.util.List;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import dao.CategoriaDAO;
 import dao.LibroDAO;
 import entity.Categoria;
@@ -14,13 +12,14 @@ public class LibrosImplService implements LibrosService
 	private LibroDAO libroDAO = null;
 	private CategoriaDAO categoriaDAO = null;
 	
+	/*
 	public LibrosImplService()
 	{
-		/* Use of Sping framework*/
+		//Deprecated due to all dependencies could be asign through setters and getters  
 		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext("applicationContext.xml");
 		libroDAO = (LibroDAO) factory.getBean("libroDAO");
 		categoriaDAO = (CategoriaDAO) factory.getBean("categoriaDAO");
-	}
+	}*/
 
 	@Override
 	public void save(Libro libro) 
@@ -62,6 +61,36 @@ public class LibrosImplService implements LibrosService
 	public List<Libro> getByCategory(int id) 
 	{
 		return libroDAO.getBookByCat(id);
+	}
+
+	@Override
+	public LibroDAO getLibroDAO() 
+	{
+		return libroDAO;
+	}
+
+	@Override
+	public void setLibroDAO(LibroDAO libroDAO) 
+	{
+		this.libroDAO = libroDAO;
+	}
+
+	@Override
+	public CategoriaDAO getCategoriaDAO() 
+	{
+		return categoriaDAO;
+	}
+
+	@Override
+	public void setCategoriaDAO(CategoriaDAO categoriaDAO) 
+	{
+		this.categoriaDAO = categoriaDAO;
+	}
+
+	@Override
+	public void insert(Libro libro) 
+	{
+		libroDAO.insert(libro);
 	}
 	
 	

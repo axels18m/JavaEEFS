@@ -12,13 +12,15 @@ import entity.Libro;
 import factory.DAOAbstractFactory;
 import factory.DAOFactory;
 import service.LibrosImplService;
+import service.LibrosService;
 
 public class showBooksAction extends Action {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
-		LibrosImplService service = new LibrosImplService();
+		LibrosService service = (LibrosService) getBean("servicioLibros", request);
+		
 		List<Libro> listOfBooks = service.getAll();
 		List<Categoria> listOfCategories = service.getAllCategories();
 		request.setAttribute("listOfBooks", listOfBooks);

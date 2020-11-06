@@ -15,6 +15,7 @@ import factory.DAOFactory;
 import jpa.CategoriaDAOJPAImpl;
 import jpa.LibroDAOJPAImpl;
 import service.LibrosImplService;
+import service.LibrosService;
 
 public class editBookFormAction extends Action
 {
@@ -24,7 +25,7 @@ public class editBookFormAction extends Action
 	{
 		Libro libro;
 		try {
-			LibrosImplService service = new LibrosImplService();
+			LibrosService service = (LibrosService) getBean("servicioLibros", request);
 			
 			List<Categoria> listOfCategories = service.getAllCategories();
 			libro = service.getById(Integer.parseInt(request.getParameter("isbn")));
