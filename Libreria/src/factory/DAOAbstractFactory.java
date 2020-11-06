@@ -8,6 +8,7 @@ public abstract class DAOAbstractFactory
 {
 	public static DAOFactory getInstance()
 	{
+		/* Implementation of IOC (Inversion Of Control). */
 		String impl = getImpl();
 		if (impl.equals("hibernate")) { return new DAOHibernateFactory(); } else { return new DAOJPAFactory(); }
 	}

@@ -37,8 +37,7 @@
 			</p>
 			
 			<button value = "insert" type="submit">Insert</button>
-			<button><a href = "showBooks.do">Cancel</a></button>
-		</fieldset>
+		</fieldset><button><a href = "showBooks.do">Cancel</a></button>
 	</form>
 </body>
 </html>

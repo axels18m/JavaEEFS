@@ -2,12 +2,12 @@ package service;
 
 import java.util.List;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import dao.CategoriaDAO;
 import dao.LibroDAO;
 import entity.Categoria;
 import entity.Libro;
-import factory.DAOAbstractFactory;
-import factory.DAOFactory;
 
 public class LibrosImplService implements LibrosService
 {
@@ -16,9 +16,10 @@ public class LibrosImplService implements LibrosService
 	
 	public LibrosImplService()
 	{
-		DAOFactory factory = DAOAbstractFactory.getInstance();
-		libroDAO = factory.getLibroDAO();
-		categoriaDAO = factory.getCategoriaDAO();
+		/* Use of Sping framework*/
+		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext("applicationContext.xml");
+		libroDAO = (LibroDAO) factory.getBean("libroDAO");
+		categoriaDAO = (CategoriaDAO) factory.getBean("categoriaDAO");
 	}
 
 	@Override

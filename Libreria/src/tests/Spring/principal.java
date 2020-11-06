@@ -20,7 +20,10 @@ public class principal
 	public void testAppContext()
 	{
 		ApplicationContext factory = new FileSystemXmlApplicationContext("applicationContext.xml");
-		message msg = (message) factory.getBean("messageHTML");
+		message msg = (message) factory.getBean("messageHtml");
 		msg.hola();
+		
+		message msg2 = (message) factory.getBean("messagePlano");
+		msg2.hola();
 	}
 }
