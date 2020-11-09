@@ -10,12 +10,21 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
+import org.springframework.orm.jpa.JpaTemplate;
+import org.springframework.orm.jpa.support.JpaDaoSupport;
+
 import dao.GenericDAO;
 
-public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements GenericDAO<T, Id> 
+public abstract class GenericDAOJPAImpl<T, Id extends Serializable> extends JpaDaoSupport implements GenericDAO<T, Id> 
 {
 	private Class<T> persistenceClass;
-	private EntityManagerFactory entityManagerFactory;
+	private JpaTemplate template;
+	
+	/* We use JpaTemplate only to execute one method. */
+	public JpaTemplate getJPATemplate() { return template; }
+	
+	public void setJPATemplate(JpaTemplate template) { this.template = template; }
+	
 	
 	@SuppressWarnings("unchecked")
 	public GenericDAOJPAImpl()
@@ -26,100 +35,30 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 		this.persistenceClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 	
-	/*---- Methods that allow us to inject all the dependencies to DAO clases. ----*/
-	public EntityManagerFactory getEntityManagerFactory() { return entityManagerFactory; } 
-	public void setEntityManagerFactory( EntityManagerFactory manager) { this.entityManagerFactory = manager; }
-	/*---- ----*/
-	
 	@Override
 	public T getById(Id id)
 	{
-		EntityManager manager = jpa();
-		T obj = null;
-		
-		try { obj = (T) manager.find(persistenceClass, id); return obj; } finally { manager.close(); }
+		return template.find(persistenceClass, id);
 	}
 	
-	@Override
+	@SuppressWarnings("unchecked")
 	public List<T> getAll()
 	{
-		EntityManager manager = jpa();
-		List<T> listOfObjects = null;
-		
-		try {
-			TypedQuery<T> query = manager.createQuery("select l from " + persistenceClass.getSimpleName() + " l", persistenceClass);
-			listOfObjects = query.getResultList();
-			return listOfObjects;
-			
-		} finally {
-			manager.close();
-		}
+		return template.find("select l from " + persistenceClass.getSimpleName() + " l");
 	}
 	
 	public void delete(T obj)
 	{
-		EntityManager manager = getEntityManagerFactory().createEntityManager();
-		EntityTransaction transaction = null;
-		
-		try {
-			transaction = manager.getTransaction();
-			transaction.begin();
-			manager.remove(manager.merge(obj));
-			transaction.commit();
-		
-		} catch(PersistenceException e) {
-			transaction.rollback();
-			throw e;
-		
-		} finally {
-			manager.close();
-		}
+		template.remove(template.merge(obj));
 	}
 	
 	public void save(T obj)
 	{
-		EntityManager manager = getEntityManagerFactory().createEntityManager();
-		EntityTransaction transaction = null;
-		
-		try {
-			transaction = manager.getTransaction();
-			transaction.begin();
-			manager.merge(obj);
-			transaction.commit();
-		
-		} catch(PersistenceException e) {
-			transaction.rollback();
-			throw e;
-		
-		} finally {
-			manager.close();
-		}
+		template.merge(obj);
 	}
 	
 	public void insert(T obj)
 	{
-		EntityManager manager = getEntityManagerFactory().createEntityManager();
-		EntityTransaction transaction = null;
-		
-		try {
-			transaction = manager.getTransaction();
-			transaction.begin();
-			manager.persist(obj);
-			transaction.commit();
-		
-		} catch(PersistenceException e) {
-			transaction.rollback();
-			throw e;
-		
-		} finally {
-			manager.close();
-		}
-	}
-	
-	public static EntityManager jpa()
-	{
-		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
-		EntityManager manager = factorySession.createEntityManager();
-		return manager;
+		template.persist(obj);
 	}
 }

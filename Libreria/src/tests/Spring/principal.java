@@ -8,7 +8,8 @@ public class principal
 	public static void main(String[] args)
 	{
 		principal p = new principal();
-		p.testAppContext();
+		//p.testAppContext();
+		p.testDocuments();
 	}
 	
 	public void testMessage()
@@ -25,5 +26,13 @@ public class principal
 		
 		message msg2 = (message) factory.getBean("messagePlano");
 		msg2.hola();
+	}
+	
+	public void testDocuments()
+	{
+		Document doc = new OfficialDoc();
+		doc.print("official document");
+		doc = new SimpleDoc();
+		doc.print("simple doc");
 	}
 }
