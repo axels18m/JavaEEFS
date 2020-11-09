@@ -16,11 +16,9 @@ public class librosController extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		/* Provides the facility of dispatching the request to another resource (jsp, servlet, html, etc). */
-		RequestDispatcher dispatcher = null;
-		Action action = null;
 		String url = request.getServletPath();
-		action = Action.getAction(url.substring(1, url.length() - 3));
-		dispatcher = request.getRequestDispatcher(action.execute(request, response));
+		Action action = Action.getAction(url.substring(1, url.length() - 3));
+		RequestDispatcher dispatcher = request.getRequestDispatcher(action.execute(request, response));
 		dispatcher.forward(request, response);
 	}
 }
