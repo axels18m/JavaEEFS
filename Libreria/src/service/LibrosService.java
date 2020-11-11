@@ -12,7 +12,7 @@ public interface LibrosService
 	public LibroDAO getLibroDAO();
 	public void setLibroDAO(LibroDAO libroDAO);
 	public CategoriaDAO getCategoriaDAO();
-	public void setCategoriaDAO( CategoriaDAO categoriaDAO);
+	public void setCategoriaDAO(CategoriaDAO categoriaDAO);
 	
 	
 	public void save(Libro libro);
@@ -21,6 +21,5 @@ public interface LibrosService
 	public List<Libro> getAll();
 	public List<Categoria> getAllCategories();
 	public Libro getById(int isbn);
-	public Categoria getByCatById(int id);
 	public List<Libro> getByCategory(int id);
 }

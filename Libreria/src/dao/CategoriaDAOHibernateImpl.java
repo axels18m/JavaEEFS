@@ -18,4 +18,22 @@ public class CategoriaDAOHibernateImpl implements CategoriaDAO {
 		return null;
 	}
 
+	@Override
+	public void save(Categoria category) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insert(Categoria category) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Categoria category) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

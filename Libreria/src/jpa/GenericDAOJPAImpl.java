@@ -4,27 +4,17 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
-import javax.persistence.TypedQuery;
 
 import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import dao.GenericDAO;
 
 public abstract class GenericDAOJPAImpl<T, Id extends Serializable> extends JpaDaoSupport implements GenericDAO<T, Id> 
 {
 	private Class<T> persistenceClass;
-	private JpaTemplate template;
-	
-	/* We use JpaTemplate only to execute one method. */
-	public JpaTemplate getJPATemplate() { return template; }
-	
-	public void setJPATemplate(JpaTemplate template) { this.template = template; }
-	
 	
 	@SuppressWarnings("unchecked")
 	public GenericDAOJPAImpl()
@@ -38,27 +28,31 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> extends JpaD
 	@Override
 	public T getById(Id id)
 	{
-		return template.find(persistenceClass, id);
+		return getJpaTemplate().find(persistenceClass, id);
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<T> getAll()
 	{
-		return template.find("select l from " + persistenceClass.getSimpleName() + " l");
+		return getJpaTemplate().find("select l from " + persistenceClass.getSimpleName() + " l");
 	}
 	
+	@Transactional
 	public void delete(T obj)
 	{
-		template.remove(template.merge(obj));
+		getJpaTemplate().remove(getJpaTemplate().merge(obj));
 	}
 	
+	@Transactional
 	public void save(T obj)
 	{
-		template.merge(obj);
+		getJpaTemplate().merge(obj);
 	}
 	
+	@Transactional
 	public void insert(T obj)
 	{
-		template.persist(obj);
+		getJpaTemplate().persist(obj);
 	}
 }

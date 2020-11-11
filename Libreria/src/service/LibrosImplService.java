@@ -52,12 +52,6 @@ public class LibrosImplService implements LibrosService
 	}
 
 	@Override
-	public Categoria getByCatById(int id) 
-	{
-		return categoriaDAO.getById(id);
-	}
-
-	@Override
 	public List<Libro> getByCategory(int id) 
 	{
 		return libroDAO.getBookByCat(id);
