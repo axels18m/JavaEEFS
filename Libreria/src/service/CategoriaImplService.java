@@ -2,6 +2,8 @@ package service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import dao.CategoriaDAO;
 import entity.Categoria;
 
@@ -9,43 +11,43 @@ public class CategoriaImplService implements CategoriaService
 {
 	private CategoriaDAO categoriaDAO = null;
 
-	@Override
+	@Transactional
 	public CategoriaDAO getCategoriaDAO() 
 	{
 		return categoriaDAO;
 	}
 
-	@Override
+	@Transactional
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO) 
 	{
 		this.categoriaDAO = categoriaDAO;
 	}
 
-	@Override
+	@Transactional
 	public List<Categoria> getAll() 
 	{
 		return categoriaDAO.getAll();
 	}
 
-	@Override
+	@Transactional
 	public Categoria getById(int category) 
 	{
 		return categoriaDAO.getById(category);
 	}
 
-	@Override
+	@Transactional
 	public void save(Categoria category) 
 	{
 		categoriaDAO.save(category);
 	}
 
-	@Override
+	@Transactional
 	public void insert(Categoria category) 
 	{
 		categoriaDAO.insert(category);	
 	}
 
-	@Override
+	@Transactional
 	public void delete(Categoria category) 
 	{
 		categoriaDAO.delete(category);

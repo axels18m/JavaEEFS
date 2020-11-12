@@ -21,5 +21,5 @@ public interface LibrosService
 	public List<Libro> getAll();
 	public List<Categoria> getAllCategories();
 	public Libro getById(int isbn);
-	public List<Libro> getByCategory(int id);
+	public List<Libro> getByCategory(Categoria id);
 }

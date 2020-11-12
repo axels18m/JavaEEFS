@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
-
-import org.springframework.orm.jpa.JpaTemplate;
 import org.springframework.orm.jpa.support.JpaDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +29,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> extends JpaD
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Override
+	@Transactional
 	public List<T> getAll()
 	{
 		return getJpaTemplate().find("select l from " + persistenceClass.getSimpleName() + " l");

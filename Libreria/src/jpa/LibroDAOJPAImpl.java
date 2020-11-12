@@ -30,7 +30,7 @@ public class LibroDAOJPAImpl extends GenericDAOJPAImpl<Libro, Integer> implement
 	}
 
 	@Override
-	public List<Libro> getBookByCat(int category) 
+	public List<Libro> getBookByCat(Categoria category) 
 	{
 		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
 		EntityManager manager = factorySession.createEntityManager();

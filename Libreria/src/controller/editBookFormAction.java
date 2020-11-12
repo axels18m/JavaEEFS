@@ -14,6 +14,7 @@ import factory.DAOAbstractFactory;
 import factory.DAOFactory;
 import jpa.CategoriaDAOJPAImpl;
 import jpa.LibroDAOJPAImpl;
+import service.CategoriaService;
 import service.LibrosImplService;
 import service.LibrosService;
 
@@ -23,16 +24,12 @@ public class editBookFormAction extends Action
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
-		Libro libro;
 		try {
-			LibrosService service = (LibrosService) getBean("servicioLibros", request);
-			
-			List<Categoria> listOfCategories = service.getAllCategories();
-			libro = service.getById(Integer.parseInt(request.getParameter("isbn")));
+			List<Categoria> listOfCategories = ((LibrosService) getBean("servicioLibros", request)).getAllCategories();
+			Libro libro = ((LibrosService) getBean("servicioLibros", request)).getById(Integer.parseInt(request.getParameter("isbn")));
 			request.setAttribute("listOfCategories", listOfCategories);
 			request.setAttribute("libro", libro);
 		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "editBookForm.jsp";

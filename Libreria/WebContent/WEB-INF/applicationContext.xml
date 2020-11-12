@@ -4,7 +4,11 @@
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-4.3.xsd"> 
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd"
+		xmlns:context = "http://www.springframework.org/schema/context"
+		xmlns:tx = "http://www.springframework.org/schema/tx"> 
 		
 	<!-- <bean> defines the different kinds of objects to instantiate in the framework. -->
 	<!-- name refers to the property inside the java Class and ref refers to the hole Class -->
@@ -22,6 +26,7 @@
 	<bean id = "entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 		<property name = "persistenceUnitName" value = "LibreriaJava"/>
 	</bean>
+	
 
 	<!-- JPATemplate dependency -->
 	<bean id = "temaplate" class = "org.springframework.orm.jpa.JpaTemplate">
@@ -35,6 +40,11 @@
 		<property name = "categoriaDAO" ref = "categoriaDAO"/>
 	</bean>
 	
+	<bean id = "servicioCategorias" class = "service.CategoriaImplService">
+		<!-- We use <property> to use the DI principle from this file to all service dependencies needed. -->
+		<property name = "categoriaDAO" ref = "categoriaDAO"/>
+	</bean>
+	
 	
 	<!-- LibroDAO -->
 	<bean id = "libroDAO" class="jpa.LibroDAOJPAImpl">
@@ -44,6 +54,12 @@
 	
 	<!-- CategoriaDAO -->
 	<bean id = "categoriaDAO" class="jpa.CategoriaDAOJPAImpl">
+		<property name = "entityManagerFactory" ref = "entityManagerFactory"/>
+	</bean>
+	
+	<!-- tx will be in charge to create the dynamic proxies per transaction. -->
+	<tx:annotation-driven/>
+	<bean id = "transactionManager" class = "org.springframework.orm.jpa.JpaTransactionManager">
 		<property name = "entityManagerFactory" ref = "entityManagerFactory"/>
 	</bean>
 

@@ -2,6 +2,8 @@ package service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import dao.CategoriaDAO;
 import dao.LibroDAO;
 import entity.Categoria;
@@ -11,81 +13,70 @@ public class LibrosImplService implements LibrosService
 {
 	private LibroDAO libroDAO = null;
 	private CategoriaDAO categoriaDAO = null;
-	
-	/*
-	public LibrosImplService()
-	{
-		//Deprecated due to all dependencies could be asign through setters and getters  
-		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext("applicationContext.xml");
-		libroDAO = (LibroDAO) factory.getBean("libroDAO");
-		categoriaDAO = (CategoriaDAO) factory.getBean("categoriaDAO");
-	}*/
 
-	@Override
+	@Transactional
 	public void save(Libro libro) 
 	{
 		libroDAO.save(libro);	
 	}
 
-	@Override
+	@Transactional
 	public void delete(Libro libro) 
 	{
 		libroDAO.delete(libro);	
 	}
 
-	@Override
+	@Transactional
 	public List<Libro> getAll() 
 	{
 		return libroDAO.getAll();
 	}
 
-	@Override
+	@Transactional
 	public List<Categoria> getAllCategories() 
 	{
 		return categoriaDAO.getAll();
 	}
 
-	@Override
+	@Transactional
 	public Libro getById(int isbn) 
 	{
 		return libroDAO.getById(isbn);
 	}
 
-	@Override
-	public List<Libro> getByCategory(int id) 
+	@Transactional
+	public List<Libro> getByCategory(Categoria id) 
 	{
 		return libroDAO.getBookByCat(id);
 	}
 
-	@Override
+	@Transactional
 	public LibroDAO getLibroDAO() 
 	{
 		return libroDAO;
 	}
 
-	@Override
+	@Transactional
 	public void setLibroDAO(LibroDAO libroDAO) 
 	{
 		this.libroDAO = libroDAO;
 	}
 
-	@Override
+	@Transactional
 	public CategoriaDAO getCategoriaDAO() 
 	{
 		return categoriaDAO;
 	}
 
-	@Override
+	@Transactional
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO) 
 	{
 		this.categoriaDAO = categoriaDAO;
 	}
 
-	@Override
+	@Transactional
 	public void insert(Libro libro) 
 	{
 		libroDAO.insert(libro);
 	}
-	
-	
 }

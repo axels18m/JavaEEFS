@@ -23,12 +23,12 @@ public class filterAction extends Action
 	{
 		List<Libro> listOfBooks; 
 		LibrosService service = (LibrosService) getBean("servicioLibros", request);
-		CategoriaService catService = (CategoriaService) getBean("servicioLibros", request);
-		List<Categoria> listOfCategories = catService.getAll();
+		CategoriaService category = (CategoriaService) getBean("servicioCategorias", request);
+		List<Categoria> listOfCategories = service.getAllCategories();
 		
 		try {
-			listOfBooks = service.getByCategory(catService.getById(Integer.parseInt(request.getParameter("category"))).getId());
-		} catch (NumberFormatException e) {
+			listOfBooks = service.getByCategory(category.getById(Integer.parseInt(request.getParameter("category"))));
+		} catch (Exception e) {
 			listOfBooks = service.getAll();
 		}
 		request.setAttribute("listOfBooks", listOfBooks);

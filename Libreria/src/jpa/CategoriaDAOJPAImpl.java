@@ -17,7 +17,7 @@ public class CategoriaDAOJPAImpl extends GenericDAOJPAImpl<Categoria, Integer> i
 		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
 		EntityManager manager = factorySession.createEntityManager();
 		
-		TypedQuery<Categoria> query = manager.createQuery("select l from Libro l where l.cat= " +category, Categoria.class);
+		TypedQuery<Categoria> query = manager.createQuery("select l from Categoria l where l.id= " +category, Categoria.class);
 		Categoria cat = null;
 		
 		try { cat = query.getSingleResult(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
