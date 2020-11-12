@@ -23,14 +23,13 @@ public class GetByCagetogyAction extends Action
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
 		LibrosService service = (LibrosService) getBean("servicioLibros", request);
-		CategoriaService cat = (CategoriaService) getBean("servicioCategorias", request);
 		List<Libro> listOfBooks = null;
-		List<Categoria> listOfCategories = service.getAllCategories();
+		List<Categoria> listOfCategories = ((CategoriaService) getBean("servicioCategorias", request)).getAll();
 		
 		if (request.getParameter("category") == null || request.getParameter("category").equals("select")) {
 			listOfBooks = service.getAll();
 		} else {
-			listOfBooks = service.getByCategory(cat.getById(Integer.parseInt(request.getParameter("category"))));
+			listOfBooks = service.getByCategory(Integer.parseInt(request.getParameter("category")));
 		}
 		
 		request.setAttribute("listOfBooks", listOfBooks);

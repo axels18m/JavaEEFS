@@ -25,7 +25,7 @@ public class editBookFormAction extends Action
 	public String execute(HttpServletRequest request, HttpServletResponse response) 
 	{
 		try {
-			List<Categoria> listOfCategories = ((LibrosService) getBean("servicioLibros", request)).getAllCategories();
+			List<Categoria> listOfCategories = ((CategoriaService) getBean("servicioCategorias", request)).getAll();
 			Libro libro = ((LibrosService) getBean("servicioLibros", request)).getById(Integer.parseInt(request.getParameter("isbn")));
 			request.setAttribute("listOfCategories", listOfCategories);
 			request.setAttribute("libro", libro);

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dao.CategoriaDAO;
 import dao.LibroDAO;
-import entity.Categoria;
 import entity.Libro;
 
 public class LibrosImplService implements LibrosService
@@ -33,21 +32,15 @@ public class LibrosImplService implements LibrosService
 	}
 
 	@Transactional
-	public List<Categoria> getAllCategories() 
-	{
-		return categoriaDAO.getAll();
-	}
-
-	@Transactional
 	public Libro getById(int isbn) 
 	{
 		return libroDAO.getById(isbn);
 	}
 
 	@Transactional
-	public List<Libro> getByCategory(Categoria id) 
+	public List<Libro> getByCategory(int id) 
 	{
-		return libroDAO.getBookByCat(id);
+		return libroDAO.getByCategory(id);
 	}
 
 	@Transactional

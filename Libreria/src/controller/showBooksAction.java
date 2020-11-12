@@ -11,6 +11,7 @@ import entity.Categoria;
 import entity.Libro;
 import factory.DAOAbstractFactory;
 import factory.DAOFactory;
+import service.CategoriaService;
 import service.LibrosImplService;
 import service.LibrosService;
 
@@ -22,7 +23,7 @@ public class showBooksAction extends Action {
 		LibrosService service = (LibrosService) getBean("servicioLibros", request);
 		
 		List<Libro> listOfBooks = service.getAll();
-		List<Categoria> listOfCategories = service.getAllCategories();
+		List<Categoria> listOfCategories = ((CategoriaService) getBean("servicioCategorias", request)).getAll();
 		request.setAttribute("listOfBooks", listOfBooks);
 		request.setAttribute("listOfCategories", listOfCategories);
 

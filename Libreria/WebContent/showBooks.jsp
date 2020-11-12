@@ -17,6 +17,7 @@
 		    	<label class="input-group-text" for="inputGroupSelect01">Options</label>
 		 	</div>
 			<select class="custom-select" name="category">
+				<option value="ambos">Ambos</option>
 				<c:forEach var="category" items="${listOfCategories}">
 					<option value="${category.id}">${category.description}</option>
 				</c:forEach>

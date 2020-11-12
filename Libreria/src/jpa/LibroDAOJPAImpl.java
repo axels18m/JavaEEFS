@@ -16,13 +16,13 @@ import entity.Libro;
 public class LibroDAOJPAImpl extends GenericDAOJPAImpl<Libro, Integer> implements LibroDAO
 {
 
-	public List<Libro> getByCategory(Categoria category)
+	public List<Libro> getByCategory(int category)
 	{
 		EntityManagerFactory factorySession = JPAHelper.getJPAFactory();
 		EntityManager manager = factorySession.createEntityManager();
 		
 		CategoriaDAO catDao = new CategoriaDAOJPAImpl();
-		TypedQuery<Libro> query = manager.createQuery("select l from Libro l where l.cat= " +category.getId(), Libro.class);
+		TypedQuery<Libro> query = manager.createQuery("select l from Libro l where l.category= " +category, Libro.class);
 		List<Libro> listOfBooks = null;
 		
 		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }
@@ -36,7 +36,7 @@ public class LibroDAOJPAImpl extends GenericDAOJPAImpl<Libro, Integer> implement
 		EntityManager manager = factorySession.createEntityManager();
 		
 		CategoriaDAO catDao = new CategoriaDAOJPAImpl();
-		TypedQuery<Libro> query = manager.createQuery("select l from Libro l where l.cat= " +category, Libro.class);
+		TypedQuery<Libro> query = manager.createQuery("select l from Libro l where l.category= " +category.getId(), Libro.class);
 		List<Libro> listOfBooks = null;
 		
 		try { listOfBooks = query.getResultList(); } catch(PersistenceException e) {manager.getTransaction().rollback(); } finally { manager.close(); }

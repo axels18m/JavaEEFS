@@ -4,7 +4,6 @@ import java.util.List;
 
 import dao.CategoriaDAO;
 import dao.LibroDAO;
-import entity.Categoria;
 import entity.Libro;
 
 public interface LibrosService 
@@ -19,7 +18,6 @@ public interface LibrosService
 	public void insert(Libro libro);
 	public void delete(Libro libro);
 	public List<Libro> getAll();
-	public List<Categoria> getAllCategories();
 	public Libro getById(int isbn);
-	public List<Libro> getByCategory(Categoria id);
+	public List<Libro> getByCategory(int id);
 }
